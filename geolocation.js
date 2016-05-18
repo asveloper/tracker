@@ -4,10 +4,9 @@ var {
   StyleSheet,
   Text,
   View,
-  AppRegistry
 } = ReactNative;
 
-var Geolocation = React.createClass({
+export const Geolocation = React.createClass({
   watchID: (null: ?number),
 
   getInitialState: function() {
@@ -57,5 +56,3 @@ var styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
-
-AppRegistry.registerComponent('KoTacTracker', () => Geolocation);

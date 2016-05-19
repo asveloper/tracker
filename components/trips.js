@@ -1,12 +1,14 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
+
 var {
   StyleSheet,
   Text,
   View,
   ListView
-} = React;
+} = ReactNative;
 
 var REQUEST_URL = "";
 

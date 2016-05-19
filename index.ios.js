@@ -4,6 +4,6 @@ var {
   AppRegistry
 } = ReactNative;
 
-import { Geolocation } from './geolocation.js';
+import { Geolocation } from 'app/geolocation.js';
 
 AppRegistry.registerComponent('KoTacTracker', () => Geolocation);

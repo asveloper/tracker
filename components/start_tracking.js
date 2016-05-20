@@ -8,7 +8,7 @@ var {
 
 import { Geolocation } from './geolocation.js';
 
-export const Start = React.createClass({
+export const StartTracking = React.createClass({
   getInitialState(){
     return{
       geolocation: false,

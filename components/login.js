@@ -49,7 +49,7 @@ export const Login = React.createClass({
     })
     .then((response) => response.json())
     .then((responseData) => {
-      if(status == "success"){
+      if(responseData.status == "success"){
         AsyncStorage.setItem('authToken', responseData.data.authToken);
         AsyncStorage.setItem('userId', responseData.data.userId);
 

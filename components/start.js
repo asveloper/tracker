@@ -6,7 +6,7 @@ var {
   ToastAndroid
 } = ReactNative;
 
-import { Geolocation } from './components/geolocation.js';
+import { Geolocation } from './geolocation.js';
 
 export const Start = React.createClass({
   getInitialState(){

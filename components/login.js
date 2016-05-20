@@ -20,16 +20,20 @@ export const Login = React.createClass({
   getInitialState(){
     return{
       startTracking: false,
+      loggedIn: false
     }
   },
   _handleLogin(event){
     ToastAndroid.show('Login Pressed!', ToastAndroid.LONG);
+    let email = this.refs.email.props.value;
+    let password = this.refs.password.props.value;
 
-    // TODO: send form creds and fetch data
+    this.fetchData(email, password);
 
-    // TODO: Store authToken and userId in AsyncStorage
+    if(this.state.loggedIn){
+      this.setState({startTracking: true});
+    }
 
-    this.setState({startTracking: true});
   },
   fetchData: function(email, password){
     fetch(REQUEST_URL, {
@@ -45,7 +49,12 @@ export const Login = React.createClass({
     })
     .then((response) => response.json())
     .then((responseData) => {
-      console.log(responseData);
+      if(status == "success"){
+        AsyncStorage.setItem('authToken', responseData.data.authToken);
+        AsyncStorage.setItem('userId', responseData.data.userId);
+
+        this.setState({loggedIn: true});
+      }
     })
     .done();
   },
@@ -62,6 +71,7 @@ export const Login = React.createClass({
           autoFocus={true}
           keyboardType='email-address'
           placeholder='Email'
+          ref="email"
           onChangeText={(email) => this.setState({email})}
           value={this.state.email}
         />
@@ -70,6 +80,7 @@ export const Login = React.createClass({
           style={styles.input}
           placeholder='Password'
           secureTextEntry={true}
+          ref="password"
           onChangeText={(password) => this.setState({password})}
           value={this.state.password}
         />

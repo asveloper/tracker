@@ -9,17 +9,18 @@ var {
   StyleSheet,
   Text,
   View,
+  TextInput,
   ToastAndroid
 } = ReactNative;
 
-import { Start } from './components/start.js';
+import { StartTracking } from './components/start_tracking.js';
 
 const REQUEST_URL = Config.SERVER_URL.concat(Config.LOGIN_PATH);
 
 var KoTacTracker = React.createClass({
   getInitialState(){
     return{
-      start: false,
+      startTracking: false,
     }
   },
   _handleLogin(event){
@@ -29,7 +30,7 @@ var KoTacTracker = React.createClass({
 
     // TODO: Store authToken and userId in AsyncStorage
 
-    this.setState({start: true});
+    this.setState({startTracking: true});
   },
   fetchData: function(email, password){
     fetch(REQUEST_URL, {
@@ -51,20 +52,47 @@ var KoTacTracker = React.createClass({
   },
   render(){
 
-    if(this.state.start){
-      return <Start />;
+    if(this.state.startTracking){
+      return <StartTracking />;
     }
 
     return(
-      <Button
-        style={{fontSize: 20, color: 'green', marginTop: 50}}
-        styleDisabled={{color: 'red'}}
-        onPress={this._handleLogin}
-      >
-        Login!
-      </Button>
+      <View>
+        <TextInput
+          style={styles.input}
+          autoFocus={true}
+          keyboardType='email-address'
+          placeholder='Email'
+          onChangeText={(email) => this.setState({email})}
+          value={this.state.email}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder='Password'
+          secureTextEntry={true}
+          onChangeText={(password) => this.setState({password})}
+          value={this.state.password}
+        />
+
+        <Button
+          style={{fontSize: 20, color: 'green', marginTop: 20}}
+          styleDisabled={{color: 'red'}}
+          onPress={this._handleLogin}
+        >
+          Login!
+        </Button>
+      </View>
     );
   },
+});
+
+var styles = StyleSheet.create({
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1
+  }
 });
 
 AppRegistry.registerComponent('KoTacTracker', () => KoTacTracker);

@@ -4,7 +4,6 @@ var Button = require('react-native-button');
 var Config = require('../config');
 
 var {
-  AppRegistry,
   AsyncStorage,
   StyleSheet,
   Text,

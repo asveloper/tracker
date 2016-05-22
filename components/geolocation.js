@@ -4,6 +4,7 @@ var {
   StyleSheet,
   Text,
   View,
+  MapView
 } = ReactNative;
 
 export const Geolocation = React.createClass({

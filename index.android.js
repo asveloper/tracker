@@ -1,10 +1,11 @@
-var ReactNative = require('react-native');
+'use strict';
 
-var {
+import {
   AppRegistry,
-} = ReactNative;
+} from 'react-native';
 
 import { Login } from './components/login.js';
 import { Geolocation } from './components/geolocation.js';
+import { StartTracking } from './components/start_tracking.js';
 
-AppRegistry.registerComponent('KoTacTracker', () => Geolocation);
+AppRegistry.registerComponent('KoTacTracker', () => StartTracking);

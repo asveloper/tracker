@@ -6,22 +6,22 @@ var {
   ToastAndroid
 } = ReactNative;
 
-import { Geolocation } from './geolocation.js';
+import { TripTitle } from './trip_title.js';
 
 export const StartTracking = React.createClass({
   getInitialState(){
     return{
-      geolocation: false,
+      tripTitle: false,
     }
   },
   _handlePress(event){
     ToastAndroid.show('Start Pressed!', ToastAndroid.LONG);
-    this.setState({geolocation: true});
+    this.setState({tripTitle: true});
   },
   render(){
 
-    if(this.state.geolocation){
-      return <Geolocation />;
+    if(this.state.tripTitle){
+      return <TripTitle />;
     }
 
     return(

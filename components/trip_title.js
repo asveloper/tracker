@@ -45,7 +45,6 @@ export const TripTitle = React.createClass({
   },
 
   _handleStart(event) {
-    console.log("Start called");
     let title = this.refs.title.props.value;
     this.saveTrip(title);
   },

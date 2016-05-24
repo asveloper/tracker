@@ -6,7 +6,18 @@ var {
   StyleSheet,
   Text,
   View,
+  Dimensions,
+  Platform,
+  TouchableOpacity,
 } = ReactNative;
+
+var screen = Dimensions.get('window');
+
+const ASPECT_RATIO = screen.width / screen.height;
+const LATITUDE = 37.78825;
+const LONGITUDE = -122.4324;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export const Geolocation = React.createClass({
   watchID: (null: ?number),
@@ -15,34 +26,34 @@ export const Geolocation = React.createClass({
     return {
       initialPosition: 'unknown',
       lastPosition: 'unknown',
-      isFirstLoad: true,
-      mapRegion: {
-        latitude: 0,
-        longitude: 0
+      region: {
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
       },
-      annotations: [],
     };
   },
 
   componentDidMount: function() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        var initialPosition = JSON.stringify(position);
-        this.setState({initialPosition});
-      },
-      (error) => alert(error.message),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-    );
-    this.watchID = navigator.geolocation.watchPosition((position) => {
-      var lastPosition = JSON.stringify(position);
-      this.setState({lastPosition});
-      this.setState({
-        region: {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        }
-      });
-    });
+    // navigator.geolocation.getCurrentPosition(
+    //   (position) => {
+    //     var initialPosition = JSON.stringify(position);
+    //     this.setState({initialPosition});
+    //   },
+    //   (error) => alert(error.message),
+    //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    // );
+    // this.watchID = navigator.geolocation.watchPosition((position) => {
+    //   var lastPosition = JSON.stringify(position);
+    //   this.setState({lastPosition});
+      // this.setState({
+      //   region: {
+      //     latitude: position.coords.latitude,
+      //     longitude: position.coords.longitude
+      //   }
+      // });
+    // });
   },
 
   componentWillUnmount: function() {
@@ -51,79 +62,65 @@ export const Geolocation = React.createClass({
 
   render: function() {
     return (
-      <View>
+      <View style={styles.container}>
         <MapView
+          ref="map"
           style={styles.map}
+          region={this.state.region}
           onRegionChange={this._onRegionChange}
-          onRegionChangeComplete={this._onRegionChangeComplete}
-          region={this.state.mapRegion}
-          annotations={this.state.annotations}
         />
 
-        <Text>
-          <Text style={styles.title}>Initial position: </Text>
-          {this.state.initialPosition}
-        </Text>
-        <Text>
-          <Text style={styles.title}>Current position: </Text>
-          {this.state.lastPosition}
-        </Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={this._stop} style={[styles.bubble, styles.button]}>
+            <Text>Stop</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   },
 
-  _getAnnotations(region) {
-    return [{
-      longitude: region.longitude,
-      latitude: region.latitude,
-      title: 'You Are Here',
-    }];
-  },
-
   _onRegionChange(region) {
-    this.setState({
-      mapRegion: region,
-    });
+    this.setState({ region });
   },
 
-  _onRegionChangeComplete(region) {
-    if (this.state.isFirstLoad) {
-      this.setState({
-        mapRegion: region,
-        annotations: this._getAnnotations(region),
-        isFirstLoad: false,
-      });
-    }
+  _stop( event ){
+
   },
+
 });
 
 var styles = StyleSheet.create({
-  title: {
-    fontWeight: '500',
+  container: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   map: {
-    height: 150,
-    margin: 10,
-    borderWidth: 1,
-    borderColor: '#000000',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
-  row: {
+  bubble: {
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20,
+  },
+  button: {
+    width: 80,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  textInput: {
-    width: 150,
-    height: 20,
-    borderWidth: 0.5,
-    borderColor: '#aaaaaa',
-    fontSize: 13,
-    padding: 4,
-  },
-  changeButton: {
-    alignSelf: 'center',
-    marginTop: 5,
-    padding: 3,
-    borderWidth: 0.5,
-    borderColor: '#777777',
+    marginVertical: 20,
+    backgroundColor: 'transparent',
   },
 });

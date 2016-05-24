@@ -51,17 +51,18 @@ export const TripTitle = React.createClass({
               autoFocus={true}
               keyboardType='default'
               placeholder='Title'
+              ref="title"
             />
 
           </View>
           <Button
             onPress={this._handleStart}
-            style={styles.modalButton}>
+            style={styles.button}>
              Start
           </Button>
           <Button
             onPress={this._handleCancel}
-            style={styles.modalButton}>
+            style={styles.button}>
              Cancel
           </Button>
         </View>

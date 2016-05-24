@@ -3,7 +3,8 @@ var ReactNative = require('react-native');
 var Button = require('react-native-button');
 
 var {
-  ToastAndroid
+  ToastAndroid,
+  AsyncStorage
 } = ReactNative;
 
 import { TripTitle } from './trip_title.js';
@@ -14,10 +15,11 @@ export const StartTracking = React.createClass({
       tripTitle: false,
     }
   },
-  _handlePress(event){
+  _handleTrip(event){
     ToastAndroid.show('Start Pressed!', ToastAndroid.LONG);
     this.setState({tripTitle: true});
   },
+
   render(){
 
     if(this.state.tripTitle){
@@ -28,7 +30,7 @@ export const StartTracking = React.createClass({
       <Button
         style={{fontSize: 20, color: 'green', marginTop: 50}}
         styleDisabled={{color: 'red'}}
-        onPress={this._handlePress}
+        onPress={this._handleTrip}
       >
         Start!
       </Button>

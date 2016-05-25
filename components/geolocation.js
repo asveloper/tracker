@@ -204,6 +204,12 @@ export const Geolocation = React.createClass({
         </MapView>
 
         <View style={styles.buttonContainer}>
+          <TouchableOpacity style={[styles.bubble, styles.coords]}>
+            <Text>{this.state.region.latitude}, {this.state.region.longitude}</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={this._stop} style={[styles.bubble, styles.button]}>
             <Text>Stop</Text>
           </TouchableOpacity>
@@ -247,5 +253,11 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 20,
     backgroundColor: 'transparent',
+  },
+  coords: {
+    width: 180,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    marginHorizontal: 10,
   },
 });

@@ -16,7 +16,6 @@ export const StartTracking = React.createClass({
     }
   },
   _handleTrip(event){
-    ToastAndroid.show('Start Pressed!', ToastAndroid.LONG);
     this.setState({tripTitle: true});
   },
 

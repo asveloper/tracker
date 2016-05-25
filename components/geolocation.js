@@ -79,7 +79,7 @@ export const Geolocation = React.createClass({
           }
         });
 
-        this.saveLatLng(position.coords.latitude, position.coords.longitude);
+        // this.saveLatLng(position.coords.latitude, position.coords.longitude);
       },
       (error) => {
         alert(error.message);

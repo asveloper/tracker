@@ -4,7 +4,8 @@ var Button = require('react-native-button');
 
 var {
   ToastAndroid,
-  AsyncStorage
+  AsyncStorage,
+  View,
 } = ReactNative;
 
 import { TripTitle } from './trip_title.js';

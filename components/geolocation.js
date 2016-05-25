@@ -23,6 +23,8 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 let REQUEST_URL = Config.SERVER_URL.concat(Config.LATLNG_PATH);
 
+import { StartTracking } from './start_tracking.js';
+
 export const Geolocation = React.createClass({
   watchID: (null: ?number),
 
@@ -31,6 +33,7 @@ export const Geolocation = React.createClass({
       authToken: undefined,
       userId: undefined,
       tripId: undefined,
+      startTracking: false,
       initialPosition: 'unknown',
       lastPosition: 'unknown',
       region: {
@@ -119,7 +122,20 @@ export const Geolocation = React.createClass({
 
   },
 
+  _onRegionChange(region) {
+    this.setState({ region });
+  },
+
+  _stop( event ){
+    // this.setState({ startTracking: true });
+  },
+
   render: function() {
+
+    if(this.state.startTracking){
+      return <StartTracking />;
+    }
+
     return (
       <View style={styles.container}>
         <MapView
@@ -136,14 +152,6 @@ export const Geolocation = React.createClass({
         </View>
       </View>
     );
-  },
-
-  _onRegionChange(region) {
-    this.setState({ region });
-  },
-
-  _stop( event ){
-
   },
 
 });

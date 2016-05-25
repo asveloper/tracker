@@ -36,12 +36,25 @@ export const Geolocation = React.createClass({
       startTracking: false,
       initialPosition: 'unknown',
       lastPosition: 'unknown',
+      endMarkerCheck: false,
       region: {
         latitude: 37.78825,
         longitude: -122.4324,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
       },
+      initialMarker: {
+        coordinate: {
+          latitude: 0,
+          longitude: 0
+        }
+      },
+      endMarker: {
+        coordinate: {
+          latitude: 0,
+          longitude: 0
+        }
+      }
     };
   },
 
@@ -50,19 +63,46 @@ export const Geolocation = React.createClass({
       (position) => {
         var initialPosition = JSON.stringify(position);
         this.setState({initialPosition});
+
+        this.setState({
+          initialMarker: {
+            coordinate: {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            }
+          },
+          region: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA
+          }
+        });
+
+        this.saveLatLng(position.coords.latitude, position.coords.longitude);
       },
-      (error) => alert(error.message),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      (error) => {
+        alert(error.message);
+        console.log(error);
+      },
+      {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000}
     );
+
     this.watchID = navigator.geolocation.watchPosition((position) => {
       var lastPosition = JSON.stringify(position);
       this.setState({lastPosition});
-      // this.setState({
-      //   region: {
-      //     latitude: position.coords.latitude,
-      //     longitude: position.coords.longitude
-      //   }
-      // });
+
+      this.setState({
+        region: {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
+        }
+      });
+
+      this.saveLatLng(position.coords.latitude, position.coords.longitude);
+
     });
 
     AsyncStorage.getItem('authToken', (err, authToken) => {
@@ -127,13 +167,22 @@ export const Geolocation = React.createClass({
   },
 
   _stop( event ){
-    // this.setState({ startTracking: true });
+    console.log("Stop Clicked");
+    this.setState({
+      startTracking: true,
+      endMarkerCheck: true
+    });
   },
 
   render: function() {
 
     if(this.state.startTracking){
       return <StartTracking />;
+    }
+
+    let endMarker = null;
+    if(this.state.endMarkerCheck){
+      endMarker =  <MapView.Marker coordinate={this.state.endMarker.coordinate} image={require('../assets/images/flag-blue.png')} />;
     }
 
     return (
@@ -143,7 +192,16 @@ export const Geolocation = React.createClass({
           style={styles.map}
           region={this.state.region}
           onRegionChange={this._onRegionChange}
-        />
+        >
+
+        <MapView.Marker
+            coordinate={this.state.initialMarker.coordinate}
+            image={require('../assets/images/flag-pink.png')}
+          />
+
+        {endMarker}
+
+        </MapView>
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={this._stop} style={[styles.bubble, styles.button]}>

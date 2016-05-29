@@ -1,6 +1,5 @@
 {
   "SERVER_URL": "http://kotactracker-63806.onmodulus.net",
   "LOGIN_PATH": "/api/login",
-  "TRIP_PATH": "/api/trips",
-  "LATLNG_PATH": "/api/latlngs"
+  "TRIP_PATH": "/api/trips"
 }

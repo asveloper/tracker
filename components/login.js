@@ -9,7 +9,6 @@ var {
   Text,
   View,
   TextInput,
-  ToastAndroid
 } = ReactNative;
 
 import { StartTracking } from './start_tracking.js';
@@ -24,40 +23,42 @@ export const Login = React.createClass({
     }
   },
   _handleLogin(event){
-    ToastAndroid.show('Login Pressed!', ToastAndroid.LONG);
-    let email = this.refs.email.props.value;
+    let username = this.refs.username.props.value;
     let password = this.refs.password.props.value;
 
-    this.fetchData(email, password);
-
-    if(this.state.loggedIn){
-      this.setState({startTracking: true});
-    }
+    this.fetchData(username, password);
 
   },
-  fetchData: function(email, password){
-    fetch(REQUEST_URL, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password
-      })
-    })
-    .then((response) => response.json())
-    .then((responseData) => {
-      if(responseData.status == "success"){
-        AsyncStorage.setItem('authToken', responseData.data.authToken);
-        AsyncStorage.setItem('userId', responseData.data.userId);
 
-        this.setState({loggedIn: true});
+  fetchData: function(username, password){
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = (e) => {
+      if (request.readyState !== 4) {
+        return;
       }
-    })
-    .done();
+
+      if (request.status > 210) {
+        console.warn('Error occured');
+        console.log(responseData);
+      } else {
+        let responseData = JSON.parse(request.responseText);
+
+        if(responseData.status == "success"){
+          AsyncStorage.setItem('authToken', responseData.data.authToken);
+          AsyncStorage.setItem('userId', responseData.data.userId);
+
+          this.setState({startTracking: true});
+        }
+      }
+    };
+
+    let params = "username="+username+"&password="+password;
+    request.open('POST', REQUEST_URL);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    request.send(params);
+
   },
+
   render(){
 
     if(this.state.startTracking){
@@ -69,11 +70,11 @@ export const Login = React.createClass({
         <TextInput
           style={styles.input}
           autoFocus={true}
-          keyboardType='email-address'
-          placeholder='Email'
-          ref="email"
-          onChangeText={(email) => this.setState({email})}
-          value={this.state.email}
+          keyboardType='default'
+          placeholder='Username'
+          ref="username"
+          onChangeText={(username) => this.setState({username})}
+          value={this.state.username}
         />
 
         <TextInput

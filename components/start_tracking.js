@@ -8,13 +8,13 @@ var {
   View,
 } = ReactNative;
 
-import { TripTitle } from './trip_title.js';
 import { Trips } from './trips.js';
+import { Geolocation } from './geolocation.js';
 
 export const StartTracking = React.createClass({
   getInitialState(){
     return{
-      tripTitle: false,
+      geolocation: false,
       listTrips: false
     }
   },
@@ -29,8 +29,8 @@ export const StartTracking = React.createClass({
 
   render(){
 
-    if(this.state.tripTitle){
-      return <TripTitle />;
+    if(this.state.geolocation){
+      return <Geolocation />;
     }
 
     if(this.state.listTrips){

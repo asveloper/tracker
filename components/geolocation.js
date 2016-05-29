@@ -21,7 +21,7 @@ const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-let REQUEST_URL = Config.SERVER_URL.concat(Config.LATLNG_PATH);
+let REQUEST_URL = Config.SERVER_URL.concat(Config.TRIP_PATH);
 
 import { StartTracking } from './start_tracking.js';
 
@@ -32,7 +32,6 @@ export const Geolocation = React.createClass({
     return {
       authToken: undefined,
       userId: undefined,
-      tripId: undefined,
       startTracking: false,
       initialPosition: 'unknown',
       lastPosition: 'unknown',
@@ -79,7 +78,7 @@ export const Geolocation = React.createClass({
           }
         });
 
-        // this.saveLatLng(position.coords.latitude, position.coords.longitude);
+        // this.saveTrip(position.coords.latitude, position.coords.longitude);
       },
       (error) => {
         alert(error.message);
@@ -101,7 +100,7 @@ export const Geolocation = React.createClass({
         }
       });
 
-      this.saveLatLng(position.coords.latitude, position.coords.longitude);
+      this.saveTrip(position.coords.latitude, position.coords.longitude);
 
     });
 
@@ -119,14 +118,6 @@ export const Geolocation = React.createClass({
         this.setState({userId: userId});
       }
     });
-    AsyncStorage.getItem('tripId', (err, tripId) => {
-      if(err){
-        console.log(err);
-      }else{
-        this.setState({tripId: tripId});
-      }
-    });
-
 
   },
 
@@ -134,7 +125,7 @@ export const Geolocation = React.createClass({
     navigator.geolocation.clearWatch(this.watchID);
   },
 
-  saveLatLng: function(latitude, longitude){
+  saveTrip: function(latitude, longitude){
     var request = new XMLHttpRequest();
     request.onreadystatechange = (e) => {
       if (request.readyState !== 4) {
@@ -153,7 +144,7 @@ export const Geolocation = React.createClass({
       }
     };
 
-    let params = "latitude="+latitude+"&longitude="+longitude+"&tripId="+this.state.tripId+"&createdBy="+this.state.userId;
+    let params = "latitude="+latitude+"&longitude="+longitude+"&createdBy="+this.state.userId;
     request.open('POST', REQUEST_URL);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.setRequestHeader("X-Auth-Token", this.state.authToken);

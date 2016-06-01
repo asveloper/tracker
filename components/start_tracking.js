@@ -19,8 +19,8 @@ export const StartTracking = React.createClass({
     }
   },
 
-  _handleTrip(event){
-    this.setState({tripTitle: true});
+  _handleGeolocation(event){
+    this.setState({geolocation: true});
   },
 
   _listTrips(event){
@@ -42,7 +42,7 @@ export const StartTracking = React.createClass({
         <Button
           style={{fontSize: 20, color: 'green', marginTop: 50}}
           styleDisabled={{color: 'red'}}
-          onPress={this._handleTrip}
+          onPress={this._handleGeolocation}
         >
           Start!
         </Button>

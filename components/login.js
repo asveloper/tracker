@@ -18,8 +18,7 @@ const REQUEST_URL = Config.SERVER_URL.concat(Config.LOGIN_PATH);
 export const Login = React.createClass({
   getInitialState(){
     return{
-      startTracking: false,
-      loggedIn: false
+      startTracking: false
     }
   },
   _handleLogin(event){
@@ -31,32 +30,27 @@ export const Login = React.createClass({
   },
 
   fetchData: function(username, password){
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = (e) => {
-      if (request.readyState !== 4) {
-        return;
+    fetch(REQUEST_URL, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    })
+    .then((response) => response.json())
+    .then((responseData) => {
+      if(responseData.status == "success"){
+        AsyncStorage.setItem('authToken', responseData.data.authToken);
+        AsyncStorage.setItem('userId', responseData.data.userId);
+
+        this.setState({startTracking: true});
       }
-
-      if (request.status > 210) {
-        console.warn('Error occured');
-        console.log(responseData);
-      } else {
-        let responseData = JSON.parse(request.responseText);
-
-        if(responseData.status == "success"){
-          AsyncStorage.setItem('authToken', responseData.data.authToken);
-          AsyncStorage.setItem('userId', responseData.data.userId);
-
-          this.setState({startTracking: true});
-        }
-      }
-    };
-
-    let params = "username="+username+"&password="+password;
-    request.open('POST', REQUEST_URL);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(params);
-
+    })
+    .done();
   },
 
   render(){

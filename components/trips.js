@@ -10,7 +10,10 @@ var {
   View,
   ListView,
   AsyncStorage,
+  BackAndroid,
 } = ReactNative;
+
+import { StartTracking } from './start_tracking.js';
 
 var REQUEST_URL = Config.SERVER_URL.concat(Config.USER_TRIPS_PATH);
 
@@ -22,7 +25,8 @@ export const Trips = React.createClass({
       }),
       loaded: false,
       authToken: undefined,
-      userId: undefined
+      userId: undefined,
+      startTracking: false
     }
   },
 
@@ -72,10 +76,27 @@ export const Trips = React.createClass({
         this.fetchData();
       }
     });
-
-    console.log("Trips rendered");
   },
+
+  componentWillMount: function() {
+    BackAndroid.addEventListener('hardwareBackPress', this.backAndroidHandler);
+  },
+
+  componentWillUnmount: function() {
+    BackAndroid.removeEventListener('hardwareBackPress', this.backAndroidHandler);
+  },
+
+  backAndroidHandler: function() {
+    this.setState({startTracking: true});
+    return true;
+  },
+
   render: function() {
+
+    if(this.state.startTracking){
+      return <StartTracking />;
+    }
+
     return (
       <ListView
         dataSource={this.state.dataSource}

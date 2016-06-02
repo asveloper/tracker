@@ -2,5 +2,6 @@
   "SERVER_URL": "http://192.168.0.104:3000",
   "LOGIN_PATH": "/api/login",
   "TRIP_PATH": "/api/trips",
-  "LATLNGS_PATH": "/api/latlngs"
+  "LATLNGS_PATH": "/api/latlngs",
+  "USER_TRIPS_PATH": "/api/user/trips"
 }

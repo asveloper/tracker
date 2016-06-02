@@ -12,7 +12,7 @@ var {
   AsyncStorage,
 } = ReactNative;
 
-var REQUEST_URL = Config.SERVER_URL.concat(Config.TRIP_PATH);
+var REQUEST_URL = Config.SERVER_URL.concat(Config.USER_TRIPS_PATH);
 
 export const Trips = React.createClass({
   getInitialState: function(){
@@ -90,7 +90,7 @@ export const Trips = React.createClass({
     return(
       <View style={styles.container}>
         <View style={styles.row}>
-          <Text>{trip.title}</Text>
+          <Text>{trip.createdAt}</Text>
         </View>
       </View>
     );

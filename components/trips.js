@@ -106,10 +106,12 @@ export const Trips = React.createClass({
   },
 
   renderTrip: function(trip){
+    let date = (new Date(trip.createdAt)).toString();
+
     return(
       <View style={styles.container}>
         <View style={styles.row}>
-          <Text>{trip.createdAt}</Text>
+          <Text>{date}</Text>
         </View>
       </View>
     );
@@ -129,11 +131,12 @@ var styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   row: {
-    width: 100,
+    width: 300,
     flexDirection: 'row',
     justifyContent: 'center',
     padding: 10,
     backgroundColor: '#F6F6F6',
+    flex: 1
   },
   separator: {
     height: 1,

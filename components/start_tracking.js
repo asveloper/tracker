@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactNative = require('react-native');
 var Button = require('react-native-button');
+var Config = require('../config');
 
 var {
   ToastAndroid,

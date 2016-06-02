@@ -36,6 +36,7 @@ export const Geolocation = React.createClass({
       startTracking: false,
       initialPosition: 'unknown',
       lastPosition: 'unknown',
+      coordinates: [],
       endMarkerCheck: false,
       region: {
         latitude: 37.78825,
@@ -153,6 +154,15 @@ export const Geolocation = React.createClass({
 
         if(responseData.status == "success"){
           console.log(responseData);
+
+          let coordinates = this.state.coordinates.slice();
+          let latitude = parseFloat(responseData.data.latitude);
+          let longitude = parseFloat(responseData.data.longitude);
+          coordinates.push({latitude: latitude, longitude: longitude});
+
+          console.log(coordinates);
+
+          this.setState({coordinates: coordinates});
         }
       }
     };
@@ -198,12 +208,18 @@ export const Geolocation = React.createClass({
           onRegionChange={this._onRegionChange}
         >
 
-        <MapView.Marker
-            coordinate={this.state.initialMarker.coordinate}
-            image={require('../assets/images/flag-pink.png')}
-          />
 
-        {endMarker}
+        {this.state.coordinates.map(function(coordinate){
+          return (
+            <View key={coordinate.latitude}>
+              <MapView.Marker
+                coordinate={coordinate}
+              />
+            </View>
+          );
+
+        })}
+
 
         </MapView>
 

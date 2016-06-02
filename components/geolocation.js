@@ -131,6 +131,12 @@ export const Geolocation = React.createClass({
 
   componentWillUnmount: function() {
     navigator.geolocation.clearWatch(this.watchID);
+
+    AsyncStorage.removeItem('tripId', (err) => {
+      if(err){
+        console.log(err);
+      }
+    });
   },
 
   saveTrip: function(latitude, longitude){

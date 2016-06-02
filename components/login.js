@@ -48,6 +48,8 @@ export const Login = React.createClass({
         AsyncStorage.setItem('userId', responseData.data.userId);
 
         this.setState({startTracking: true});
+      }else{
+        console.warn("Invalid Username or Password");
       }
     })
     .done();

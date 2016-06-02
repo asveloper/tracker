@@ -62,7 +62,6 @@ export const TripTitle = React.createClass({
 
       if (request.status > 210) {
         console.warn('Error occured');
-        console.log(responseData);
       } else {
         let responseData = JSON.parse(request.responseText);
 

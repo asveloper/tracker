@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactNative = require('react-native');
-var Button = require('react-native-button');
+var Button = require('apsl-react-native-button');
 var Config = require('../config');
 
 var {
@@ -10,6 +10,8 @@ var {
   View,
   TextInput,
 } = ReactNative;
+
+// import { Button } from 'apsl-react-native-button';
 
 import { StartTracking } from './start_tracking.js';
 
@@ -83,8 +85,8 @@ export const Login = React.createClass({
         />
 
         <Button
-          style={{fontSize: 20, color: 'green', marginTop: 20}}
-          styleDisabled={{color: 'red'}}
+          style={{backgroundColor: '#87CEFA'}}
+          textStyle={{fontSize: 18}}
           onPress={this._handleLogin}
         >
           Login!

@@ -1,12 +1,13 @@
 var React = require('react');
 var ReactNative = require('react-native');
-var Button = require('react-native-button');
+var Button = require('apsl-react-native-button');
 var Config = require('../config');
 
 var {
   ToastAndroid,
   AsyncStorage,
   View,
+  StyleSheet,
 } = ReactNative;
 
 import { Trips } from './trips.js';
@@ -89,18 +90,18 @@ export const StartTracking = React.createClass({
     }
 
     return(
-      <View>
+      <View style={styles.container}>
         <Button
-          style={{fontSize: 20, color: 'green', marginTop: 50}}
-          styleDisabled={{color: 'red'}}
+          style={{backgroundColor: '#87CEFA'}}
+          textStyle={{fontSize: 20}}
           onPress={this._startTrip}
         >
           Start!
         </Button>
 
         <Button
-          style={{fontSize: 20, color: 'green', marginTop: 50}}
-          styleDisabled={{color: 'red'}}
+          style={{backgroundColor: 'green'}}
+          textStyle={{fontSize: 20}}
           onPress={this._listTrips}
         >
           List Trips!
@@ -108,4 +109,10 @@ export const StartTracking = React.createClass({
       </View>
     );
   },
+});
+
+var styles = StyleSheet.create({
+  container: {
+    marginTop: 50
+  }
 });

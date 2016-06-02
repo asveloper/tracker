@@ -76,9 +76,7 @@ export const Trips = React.createClass({
         this.fetchData();
       }
     });
-  },
 
-  componentWillMount: function() {
     BackAndroid.addEventListener('hardwareBackPress', this.backAndroidHandler);
   },
 

@@ -264,6 +264,14 @@ var styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
+  distanceContainer: {
+    width: 80,
+    backgroundColor: 'green',
+    flexDirection: 'row',
+    position: 'relative',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
   map: {
     position: 'absolute',
     top: 0,
@@ -274,7 +282,7 @@ var styles = StyleSheet.create({
   bubble: {
     backgroundColor: 'rgba(255,255,255,0.7)',
     paddingHorizontal: 18,
-    paddingVertical: 12,
+    paddingVertical: 8,
     borderRadius: 20,
   },
   button: {
@@ -285,7 +293,7 @@ var styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    marginVertical: 20,
+    marginVertical: 10,
     backgroundColor: 'transparent',
   },
   coords: {
@@ -298,6 +306,5 @@ var styles = StyleSheet.create({
     width: 80,
     paddingHorizontal: 12,
     alignItems: 'center',
-    marginHorizontal: 10,
   },
 });

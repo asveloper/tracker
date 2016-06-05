@@ -217,7 +217,7 @@ export const Geolocation = React.createClass({
         >
 
 
-        {this.state.coordinates.map(function(coordinate){
+        {this.state.coordinates.map(coordinate => {
           return (
             <View key={coordinate.latitude}>
               <MapView.Marker

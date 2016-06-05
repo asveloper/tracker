@@ -3,5 +3,6 @@
   "LOGIN_PATH": "/api/login",
   "TRIP_PATH": "/api/trips",
   "LATLNGS_PATH": "/api/latlngs",
-  "USER_TRIPS_PATH": "/api/user/trips"
+  "USER_TRIPS_PATH": "/api/user/trips",
+  "TRIP_UPDATE_PATH": "/api/user/trip"
 }

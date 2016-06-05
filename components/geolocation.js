@@ -58,11 +58,32 @@ export const Geolocation = React.createClass({
           latitude: 0,
           longitude: 0
         }
-      }
+      },
+      data: [
+        {latitude: -37.876831, longitude: 145.142873},
+        {latitude: -37.8766488, longitude: 145.1411753},
+        {latitude: -37.8786473, longitude: 145.1408366},
+        {latitude: -37.879087, longitude: 145.1386928},
+        {latitude: -37.877777, longitude: 145.1356148},
+        {latitude: -37.8775624, longitude: 145.1340531},
+        {latitude: -37.8769497, longitude: 145.1309312},
+        {latitude: -37.8769963, longitude: 145.1296253},
+        {latitude: -37.8771176, longitude: 145.1308502},
+        {latitude: -37.8775248, longitude: 145.1337004},
+        {latitude: -37.8777593, longitude: 145.1356856},
+        {latitude: -37.8779451, longitude: 145.1369028},
+        {latitude: -37.8787425, longitude: 145.1376915},
+        {latitude: -37.8792274, longitude: 145.1392679},
+        {latitude: -37.8792196, longitude: 145.1405213},
+        {latitude: -37.8763649, longitude: 145.1413673},
+        {latitude: -37.8768381, longitude: 145.1431425},
+        {latitude: -37.87701, longitude: 145.1446022},
+      ]
     };
   },
 
   componentDidMount: function() {
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         var initialPosition = JSON.stringify(position);
@@ -213,7 +234,7 @@ export const Geolocation = React.createClass({
   },
 
   _onRegionChange(region) {
-    this.setState({ region });
+    // this.setState({ region });
   },
 
   _stop( event ){
@@ -231,11 +252,6 @@ export const Geolocation = React.createClass({
       return <StartTracking />;
     }
 
-    let endMarker = null;
-    if(this.state.endMarkerCheck){
-      endMarker =  <MapView.Marker coordinate={this.state.endMarker.coordinate} image={require('../assets/images/flag-blue.png')} />;
-    }
-
     return (
       <View style={styles.container}>
         <MapView
@@ -245,18 +261,17 @@ export const Geolocation = React.createClass({
           onRegionChange={this._onRegionChange}
         >
 
+          <MapView.Marker
+            coordinate={this.state.initialMarker.coordinate}
+            title='Starting Point'
+          />
 
-        {this.state.coordinates.map(coordinate => {
-          return (
-            <View key={coordinate.latitude}>
-              <MapView.Marker
-                coordinate={coordinate}
-              />
-            </View>
-          );
-
-        })}
-
+          <MapView.Polyline
+            coordinates={this.state.coordinates}
+            strokeColor="#F00"
+            fillColor="rgba(255,0,0,0.5)"
+            strokeWidth={1}
+          />
 
         </MapView>
 

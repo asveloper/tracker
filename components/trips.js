@@ -106,12 +106,18 @@ export const Trips = React.createClass({
   },
 
   renderTrip: function(trip){
-    let date = (new Date(trip.createdAt)).toString();
+    let date = new Date(trip.createdAt);
+    let day = date.getDate(); //Date of the month: 2 in our example
+    let month = date.getMonth(); //Month of the Year: 0-based index, so 1 in our example
+    let year = date.getFullYear(); //Year: 2013
 
     return(
       <View style={styles.container}>
-        <View style={styles.row}>
-          <Text>{date}</Text>
+        <View style={styles.dateColumn}>
+          <Text>{day}-{month}-{year}</Text>
+        </View>
+        <View style={styles.distanceColumn}>
+          <Text>{trip.distance} KM</Text>
         </View>
       </View>
     );
@@ -130,8 +136,16 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  row: {
-    width: 300,
+  dateColumn: {
+    width: 100,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10,
+    backgroundColor: '#F6F6F6',
+    flex: 1
+  },
+  distanceColumn: {
+    width: 100,
     flexDirection: 'row',
     justifyContent: 'center',
     padding: 10,

@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactNative = require('react-native');
 var MapView = require('react-native-maps');
+var Geolib = require('geolib');
 var Config = require('../config');
 
 var {
@@ -33,6 +34,7 @@ export const Geolocation = React.createClass({
       authToken: undefined,
       userId: undefined,
       tripId: undefined,
+      distance: 0.0,
       startTracking: false,
       initialPosition: 'unknown',
       lastPosition: 'unknown',
@@ -163,6 +165,14 @@ export const Geolocation = React.createClass({
           console.log(coordinates);
 
           this.setState({coordinates: coordinates});
+
+
+          //calculate distance
+          let distanceInMeters = Geolib.getPathLength(coordinates);
+          let distance = Geolib.convertUnit('km', distanceInMeters);
+
+          this.setState({distance: distance});
+
         }
       }
     };

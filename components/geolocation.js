@@ -162,8 +162,6 @@ export const Geolocation = React.createClass({
           let longitude = parseFloat(responseData.data.longitude);
           coordinates.push({latitude: latitude, longitude: longitude});
 
-          console.log(coordinates);
-
           this.setState({coordinates: coordinates});
 
 

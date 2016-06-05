@@ -11,8 +11,6 @@ var {
   TextInput,
 } = ReactNative;
 
-// import { Button } from 'apsl-react-native-button';
-
 import { StartTracking } from './start_tracking.js';
 
 const REQUEST_URL = Config.SERVER_URL.concat(Config.LOGIN_PATH);

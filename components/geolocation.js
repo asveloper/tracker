@@ -169,7 +169,7 @@ export const Geolocation = React.createClass({
 
           //calculate distance
           let distanceInMeters = Geolib.getPathLength(coordinates);
-          let distance = Geolib.convertUnit('km', distanceInMeters);
+          let distance = Geolib.convertUnit('km', distanceInMeters, 2);
 
           this.setState({distance: distance});
 

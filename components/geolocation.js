@@ -23,6 +23,7 @@ const LATITUDE_DELTA = 0.000922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 let REQUEST_URL = Config.SERVER_URL.concat(Config.LATLNGS_PATH);
+let UPDATE_REQUEST_URL = Config.SERVER_URL.concat(Config.TRIP_UPDATE_PATH);
 
 import { StartTracking } from './start_tracking.js';
 
@@ -184,12 +185,40 @@ export const Geolocation = React.createClass({
 
   },
 
+  stopTrip: function(){
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = (e) => {
+      if (request.readyState !== 4) {
+        return;
+      }
+
+      if (request.status > 210) {
+        console.warn('Error occured');
+      } else {
+        let responseData = JSON.parse(request.responseText);
+
+        if(responseData.status == "success"){
+          console.log(responseData);
+        }
+      }
+    };
+
+    let params = "distance="+this.state.distance+"&_id="+this.state.tripId+"&updatedBy="+this.state.userId;
+    request.open('POST', UPDATE_REQUEST_URL);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    request.setRequestHeader("X-Auth-Token", this.state.authToken);
+    request.setRequestHeader("X-User-Id", this.state.userId);
+    request.send(params);
+
+  },
+
   _onRegionChange(region) {
     this.setState({ region });
   },
 
   _stop( event ){
-    console.log("Stop Clicked");
+    this.stopTrip();
+
     this.setState({
       startTracking: true,
       endMarkerCheck: true

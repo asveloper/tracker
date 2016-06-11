@@ -22,7 +22,7 @@ const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.000922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-let REQUEST_URL = Config.SERVER_URL.concat(Config.LATLNGS_PATH);
+let REQUEST_URL = Config.SERVER_URL.concat(Config.COORDS_PATH);
 let UPDATE_REQUEST_URL = Config.SERVER_URL.concat(Config.TRIP_UPDATE_PATH);
 
 import { StartTracking } from './start_tracking.js';

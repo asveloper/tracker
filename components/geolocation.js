@@ -14,6 +14,8 @@ var {
   AsyncStorage,
 } = ReactNative;
 
+import { Dashboard } from './dashboard.js';
+
 var screen = Dimensions.get('window');
 
 const ASPECT_RATIO = screen.width / screen.height;
@@ -25,8 +27,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let REQUEST_URL = Config.SERVER_URL.concat(Config.COORDS_PATH);
 let UPDATE_REQUEST_URL = Config.SERVER_URL.concat(Config.TRIP_UPDATE_PATH);
 
-import { StartTracking } from './start_tracking.js';
-
 export const Geolocation = React.createClass({
   watchID: (null: ?number),
 
@@ -36,7 +36,7 @@ export const Geolocation = React.createClass({
       userId: undefined,
       tripId: undefined,
       distance: 0.0,
-      startTracking: false,
+      dashboard: false,
       initialPosition: 'unknown',
       lastPosition: 'unknown',
       coordinates: [],
@@ -248,15 +248,15 @@ export const Geolocation = React.createClass({
     this.stopTrip();
 
     this.setState({
-      startTracking: true,
+      dashboard: true,
       endMarkerCheck: true
     });
   },
 
   render: function() {
 
-    if(this.state.startTracking){
-      return <StartTracking />;
+    if(this.state.dashboard){
+      return <Dashboard />;
     }
 
     return (

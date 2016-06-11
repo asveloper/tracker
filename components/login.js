@@ -11,14 +11,14 @@ var {
   TextInput,
 } = ReactNative;
 
-import { StartTracking } from './start_tracking.js';
+import { Dashboard } from './dashboard.js';
 
 const REQUEST_URL = Config.SERVER_URL.concat(Config.LOGIN_PATH);
 
 export const Login = React.createClass({
   getInitialState(){
     return{
-      startTracking: false
+      dashboard: false
     }
   },
   _handleLogin(event){
@@ -47,7 +47,7 @@ export const Login = React.createClass({
         AsyncStorage.setItem('authToken', responseData.data.authToken);
         AsyncStorage.setItem('userId', responseData.data.userId);
 
-        this.setState({startTracking: true});
+        this.setState({dashboard: true});
       }else{
         console.warn("Invalid Username or Password");
       }
@@ -57,8 +57,8 @@ export const Login = React.createClass({
 
   render(){
 
-    if(this.state.startTracking){
-      return <StartTracking />;
+    if(this.state.dashboard){
+      return <Dashboard />;
     }
 
     return(

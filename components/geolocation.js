@@ -126,7 +126,8 @@ export const Geolocation = React.createClass({
         }
       });
 
-      this.saveTrip(position.coords.latitude, position.coords.longitude);
+      // this.saveTrip(position.coords.latitude, position.coords.longitude);
+      this.updateCoords(position.coords.latitude, position.coords.longitude);
 
     });
 
@@ -178,21 +179,6 @@ export const Geolocation = React.createClass({
 
         if(responseData.status == "success"){
           console.log(responseData);
-
-          let coordinates = this.state.coordinates.slice();
-          let latitude = parseFloat(responseData.data.latitude);
-          let longitude = parseFloat(responseData.data.longitude);
-          coordinates.push({latitude: latitude, longitude: longitude});
-
-          this.setState({coordinates: coordinates});
-
-
-          //calculate distance
-          let distanceInMeters = Geolib.getPathLength(coordinates);
-          let distance = Geolib.convertUnit('km', distanceInMeters, 2);
-
-          this.setState({distance: distance});
-
         }
       }
     };
@@ -203,6 +189,24 @@ export const Geolocation = React.createClass({
     request.setRequestHeader("X-Auth-Token", this.state.authToken);
     request.setRequestHeader("X-User-Id", this.state.userId);
     request.send(params);
+
+  },
+
+  updateCoords: function(latitude, longitude){
+
+    let coordinates = this.state.coordinates.slice();
+    let lat = parseFloat(latitude);
+    let lng = parseFloat(longitude);
+    coordinates.push({latitude: lat, longitude: lng});
+
+    this.setState({coordinates: coordinates});
+
+
+    //calculate distance
+    let distanceInMeters = Geolib.getPathLength(coordinates);
+    let distance = Geolib.convertUnit('km', distanceInMeters, 2);
+
+    this.setState({distance: distance});
 
   },
 

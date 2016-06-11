@@ -109,7 +109,7 @@ export const Geolocation = React.createClass({
         alert(error.message);
         console.log(error);
       },
-      {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000}
+      {enableHighAccuracy: true, timeout: 2000, maximumAge: 1000}
     );
 
     this.watchID = navigator.geolocation.watchPosition((position) => {

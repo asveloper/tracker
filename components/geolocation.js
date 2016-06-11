@@ -222,9 +222,11 @@ export const Geolocation = React.createClass({
 
         if(responseData.status == "success"){
           console.log(responseData);
-          this.state.coordinates.map((coordinate) => {
-            this.saveTrip(coordinate.latitude, coordinate.longitude);
-          });
+
+          // this.state.coordinates.map((coordinate) => {
+          //   this.saveTrip(coordinate.latitude, coordinate.longitude);
+          // });
+
         }
       }
     };

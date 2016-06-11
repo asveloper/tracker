@@ -15,7 +15,7 @@ import { Geolocation } from './geolocation.js';
 
 let REQUEST_URL = Config.SERVER_URL.concat(Config.TRIP_PATH);
 
-export const StartTracking = React.createClass({
+export const Dashboard = React.createClass({
   getInitialState(){
     return{
       geolocation: false,

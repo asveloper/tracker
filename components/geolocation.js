@@ -104,7 +104,6 @@ export const Geolocation = React.createClass({
           }
         });
 
-        // this.saveTrip(position.coords.latitude, position.coords.longitude);
       },
       (error) => {
         alert(error.message);
@@ -126,7 +125,6 @@ export const Geolocation = React.createClass({
         }
       });
 
-      // this.saveTrip(position.coords.latitude, position.coords.longitude);
       this.updateCoords(position.coords.latitude, position.coords.longitude);
 
     });
@@ -224,6 +222,9 @@ export const Geolocation = React.createClass({
 
         if(responseData.status == "success"){
           console.log(responseData);
+          this.state.coordinates.map((coordinate) => {
+            this.saveTrip(coordinate.latitude, coordinate.longitude);
+          });
         }
       }
     };

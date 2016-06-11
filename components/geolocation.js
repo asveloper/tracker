@@ -106,10 +106,9 @@ export const Geolocation = React.createClass({
 
       },
       (error) => {
-        alert(error.message);
-        console.log(error);
+        console.alert(error);
       },
-      {enableHighAccuracy: true, timeout: 2000, maximumAge: 1000}
+      {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000}
     );
 
     this.watchID = navigator.geolocation.watchPosition((position) => {
@@ -127,7 +126,12 @@ export const Geolocation = React.createClass({
 
       this.updateCoords(position.coords.latitude, position.coords.longitude);
 
-    });
+    },
+    (error) => {
+      console.log(error);
+    },
+    { timeout: 30000 }
+    );
 
     AsyncStorage.getItem('authToken', (err, authToken) => {
       if(err){

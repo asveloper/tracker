@@ -126,12 +126,7 @@ export const Geolocation = React.createClass({
 
       this.updateCoords(position.coords.latitude, position.coords.longitude);
 
-    },
-    (error) => {
-      console.log(error);
-    },
-    { timeout: 3000 }
-    );
+    });
 
     AsyncStorage.getItem('authToken', (err, authToken) => {
       if(err){

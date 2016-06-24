@@ -108,7 +108,7 @@ export const Geolocation = React.createClass({
       (error) => {
         console.alert(error);
       },
-      {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000}
+      {enableHighAccuracy: false, timeout: 2000, maximumAge: 1000}
     );
 
     this.watchID = navigator.geolocation.watchPosition((position) => {
@@ -130,7 +130,7 @@ export const Geolocation = React.createClass({
     (error) => {
       console.log(error);
     },
-    { timeout: 30000 }
+    { timeout: 3000 }
     );
 
     AsyncStorage.getItem('authToken', (err, authToken) => {

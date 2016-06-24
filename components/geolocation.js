@@ -269,6 +269,11 @@ export const Geolocation = React.createClass({
           ref="map"
           style={styles.map}
           region={this.state.region}
+          showsUserLocation={true}
+          followsUserLocation={true}
+          showsScale={true}
+          zoomEnabled={true}
+          loadingEnabled={true}
           onRegionChange={this._onRegionChange}
         >
 
@@ -281,7 +286,8 @@ export const Geolocation = React.createClass({
             coordinates={this.state.coordinates}
             strokeColor="#F00"
             fillColor="rgba(255,0,0,0.5)"
-            strokeWidth={1}
+            strokeWidth={3}
+            lineCap='round'
           />
 
         </MapView>

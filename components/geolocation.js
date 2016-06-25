@@ -19,8 +19,10 @@ import { Dashboard } from './dashboard.js';
 var screen = Dimensions.get('window');
 
 const ASPECT_RATIO = screen.width / screen.height;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
+// const LATITUDE = 37.78825;
+// const LONGITUDE = -122.4324;
+const LATITUDE = -37.876831;
+const LONGITUDE = 145.142873;
 const LATITUDE_DELTA = 0.000922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
@@ -108,12 +110,18 @@ export const Geolocation = React.createClass({
       (error) => {
         console.alert(error);
       },
-      {enableHighAccuracy: false, timeout: 2000, maximumAge: 1000}
+      {
+        enableHighAccuracy: false,
+        timeout: 1000,
+        maximumAge: 0
+      }
     );
 
     this.watchID = navigator.geolocation.watchPosition((position) => {
       var lastPosition = JSON.stringify(position);
       this.setState({lastPosition});
+
+      console.log("watch called....");
 
       this.setState({
         region: {
@@ -126,7 +134,16 @@ export const Geolocation = React.createClass({
 
       this.updateCoords(position.coords.latitude, position.coords.longitude);
 
-    });
+    },
+      (error) => {
+        console.log(error.message);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 1000,
+        maximumAge: 0
+      }
+    );
 
     AsyncStorage.getItem('authToken', (err, authToken) => {
       if(err){
@@ -196,14 +213,16 @@ export const Geolocation = React.createClass({
     let lng = parseFloat(longitude);
     coordinates.push({latitude: lat, longitude: lng});
 
-    this.setState({coordinates: coordinates});
+    this.setState({
+      coordinates: coordinates
+    });
 
 
     //calculate distance
     let distanceInMeters = Geolib.getPathLength(coordinates);
     let distance = Geolib.convertUnit('km', distanceInMeters, 2);
 
-    this.setState({distance: distance});
+    this.setState({distance: distanceInMeters});
 
   },
 
@@ -283,6 +302,7 @@ export const Geolocation = React.createClass({
             fillColor="rgba(255,0,0,0.5)"
             strokeWidth={3}
             lineCap='round'
+            geodesic={true}
           />
 
         </MapView>
@@ -295,7 +315,7 @@ export const Geolocation = React.createClass({
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.bubble, styles.distance]}>
-            <Text>{this.state.distance} KM</Text>
+            <Text>{this.state.distance} m</Text>
           </TouchableOpacity>
         </View>
 

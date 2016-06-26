@@ -10,6 +10,7 @@
     "geolib": "^2.0.21",
     "google-maps": "^3.2.1",
     "react": "^0.14.8",
+    "react-mixin": "^3.0.5",
     "react-native": "^0.25.1",
     "react-native-button": "^1.6.0",
     "react-native-mapbox-gl": "^4.1.1",

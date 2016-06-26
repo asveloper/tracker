@@ -108,7 +108,7 @@ export const Geolocation = React.createClass({
 
       },
       (error) => {
-        console.alert(error);
+        console.warn(error);
       },
       {
         enableHighAccuracy: false,
@@ -120,8 +120,6 @@ export const Geolocation = React.createClass({
     this.watchID = navigator.geolocation.watchPosition((position) => {
       var lastPosition = JSON.stringify(position);
       this.setState({lastPosition});
-
-      console.log("watch called....");
 
       this.setState({
         region: {

@@ -7,6 +7,7 @@ var {
   ToastAndroid,
   AsyncStorage,
   View,
+  Switch,
   StyleSheet,
 } = ReactNative;
 
@@ -18,10 +19,9 @@ let REQUEST_URL = Config.SERVER_URL.concat(Config.TRIP_PATH);
 export const Dashboard = React.createClass({
   getInitialState(){
     return{
-      geolocation: false,
-      listTrips: false,
       authToken: undefined,
-      userId: undefined
+      userId: undefined,
+      switchIsOn: false
     }
   },
 
@@ -42,12 +42,14 @@ export const Dashboard = React.createClass({
     });
   },
 
-  _startTrip(event){
-    this.saveTrip();
-  },
+  _handleSwitch(value){
+    this.setState({switchIsOn: value});
 
-  _listTrips(event){
-    this.setState({listTrips: true});
+    if(value){
+      this.saveTrip();
+    }else{
+      // TODO: Stop existing trip and save it in DB
+    }
   },
 
   saveTrip: function(){
@@ -64,8 +66,6 @@ export const Dashboard = React.createClass({
 
         if(responseData.status == "success"){
           AsyncStorage.setItem('tripId', responseData.data._id);
-
-          this.setState({geolocation: true});
         }
       }
     };
@@ -81,31 +81,23 @@ export const Dashboard = React.createClass({
 
   render(){
 
-    if(this.state.geolocation){
-      return <Geolocation />;
-    }
-
-    if(this.state.listTrips){
-      return <Trips />;
+    var currentView;
+    if(this.state.switchIsOn){
+      currentView =  <Geolocation />;
+    }else{
+      currentView = <Trips />;
     }
 
     return(
       <View style={styles.container}>
-        <Button
-          style={{backgroundColor: '#87CEFA'}}
-          textStyle={{fontSize: 20}}
-          onPress={this._startTrip}
-        >
-          Start!
-        </Button>
 
-        <Button
-          style={{backgroundColor: 'green'}}
-          textStyle={{fontSize: 20}}
-          onPress={this._listTrips}
-        >
-          List Trips!
-        </Button>
+        <View style={styles.viewContainer}>{currentView}</View>
+
+        <Switch
+          onValueChange={this._handleSwitch}
+          ref="switchIsOn"
+          value={this.state.switchIsOn} />
+
       </View>
     );
   },
@@ -113,6 +105,13 @@ export const Dashboard = React.createClass({
 
 var styles = StyleSheet.create({
   container: {
-    marginTop: 50
+    margin: 10
+  },
+  viewContainer: {
+    marginTop: 50,
+    marginLeft: 20,
+    marginRight: 20,
+    width: 300,
+    height: 400,
   }
 });

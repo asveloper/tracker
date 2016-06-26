@@ -112,8 +112,7 @@ export const Geolocation = React.createClass({
       },
       {
         enableHighAccuracy: false,
-        timeout: 1000,
-        maximumAge: 0
+        timeout: 1000
       }
     );
 
@@ -138,8 +137,7 @@ export const Geolocation = React.createClass({
       },
       {
         enableHighAccuracy: false,
-        timeout: 1000,
-        maximumAge: 0
+        timeout: 1000
       }
     );
 
@@ -214,7 +212,7 @@ export const Geolocation = React.createClass({
     let distanceInMeters = Geolib.getPathLength(coordinates);
     let distance = Geolib.convertUnit('km', distanceInMeters, 2);
 
-    this.setState({distance: distanceInMeters});
+    this.setState({distance: distance});
 
   },
 
@@ -290,7 +288,7 @@ export const Geolocation = React.createClass({
           />
 
           <MapView.Polyline
-            coordinates={this.state.path}
+            coordinates={this.state.coordinates}
             strokeColor="#F00"
             fillColor="rgba(255,0,0,0.5)"
             strokeWidth={3}
@@ -308,7 +306,7 @@ export const Geolocation = React.createClass({
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.bubble, styles.distance]}>
-            <Text>{this.state.distance} m</Text>
+            <Text>{this.state.distance} KM</Text>
           </TouchableOpacity>
         </View>
 

@@ -21,6 +21,7 @@ export const Login = React.createClass({
       dashboard: false
     }
   },
+
   _handleLogin(event){
     let username = this.refs.username.props.value;
     let password = this.refs.password.props.value;

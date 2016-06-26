@@ -41,7 +41,7 @@ export const Geolocation = React.createClass({
       dashboard: false,
       initialPosition: 'unknown',
       lastPosition: 'unknown',
-      coordinates: [],
+      path: [],
       endMarkerCheck: false,
       region: {
         latitude: LATITUDE,
@@ -208,15 +208,9 @@ export const Geolocation = React.createClass({
 
   updateCoords: function(latitude, longitude){
 
-    let coordinates = this.state.coordinates.slice();
     let lat = parseFloat(latitude);
     let lng = parseFloat(longitude);
-    coordinates.push({latitude: lat, longitude: lng});
-
-    this.setState({
-      coordinates: coordinates
-    });
-
+    this.state.path.push({latitude: lat, longitude: lng});
 
     //calculate distance
     let distanceInMeters = Geolib.getPathLength(coordinates);
@@ -288,6 +282,7 @@ export const Geolocation = React.createClass({
           showsScale={true}
           zoomEnabled={true}
           loadingEnabled={true}
+          lineJoin='miter'
           onRegionChange={this._onRegionChange}
         >
 
@@ -297,7 +292,7 @@ export const Geolocation = React.createClass({
           />
 
           <MapView.Polyline
-            coordinates={this.state.coordinates}
+            coordinates={this.state.path}
             strokeColor="#F00"
             fillColor="rgba(255,0,0,0.5)"
             strokeWidth={3}

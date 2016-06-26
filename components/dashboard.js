@@ -52,6 +52,10 @@ export const Dashboard = React.createClass({
     }
   },
 
+  test: function(){
+    console.log("Hello testing");
+  },
+
   saveTrip: function(){
     var request = new XMLHttpRequest();
     request.onreadystatechange = (e) => {
@@ -95,7 +99,6 @@ export const Dashboard = React.createClass({
 
         <Switch
           onValueChange={this._handleSwitch}
-          ref="switchIsOn"
           value={this.state.switchIsOn} />
 
       </View>

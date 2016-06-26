@@ -204,12 +204,15 @@ export const Geolocation = React.createClass({
 
   updateCoords: function(latitude, longitude){
 
+    let path = this.state.path.slice();
     let lat = parseFloat(latitude);
     let lng = parseFloat(longitude);
-    this.state.path.push({latitude: lat, longitude: lng});
+    path.push({latitude: lat, longitude: lng});
+
+    this.setState({path: path});
 
     //calculate distance
-    let distanceInMeters = Geolib.getPathLength(coordinates);
+    let distanceInMeters = Geolib.getPathLength(path);
     let distance = Geolib.convertUnit('km', distanceInMeters, 2);
 
     this.setState({distance: distance});
@@ -288,7 +291,7 @@ export const Geolocation = React.createClass({
           />
 
           <MapView.Polyline
-            coordinates={this.state.coordinates}
+            coordinates={this.state.path}
             strokeColor="#F00"
             fillColor="rgba(255,0,0,0.5)"
             strokeWidth={3}

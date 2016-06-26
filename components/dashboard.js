@@ -49,11 +49,8 @@ export const Dashboard = React.createClass({
       this.saveTrip();
     }else{
       // TODO: Stop existing trip and save it in DB
+      Geolocation.endTrip();
     }
-  },
-
-  test: function(){
-    console.log("Hello testing");
   },
 
   saveTrip: function(){

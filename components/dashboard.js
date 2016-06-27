@@ -7,6 +7,7 @@ var {
   ToastAndroid,
   AsyncStorage,
   View,
+  Text,
   Switch,
   StyleSheet,
 } = ReactNative;
@@ -92,6 +93,11 @@ export const Dashboard = React.createClass({
     return(
       <View style={styles.container}>
 
+        <View style={styles.header}>
+          <Text>Log Book User ID: {this.state.userId}</Text>
+          <Text>Total Trip / Current Trip</Text>
+        </View>
+
         <View style={styles.viewContainer}>{currentView}</View>
 
         <Switch
@@ -106,6 +112,9 @@ export const Dashboard = React.createClass({
 var styles = StyleSheet.create({
   container: {
     margin: 10
+  },
+  header: {
+    alignItems: 'center',
   },
   viewContainer: {
     marginTop: 50,

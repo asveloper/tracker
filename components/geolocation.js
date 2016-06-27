@@ -180,12 +180,9 @@ export const Geolocation = React.createClass({
       if (request.status > 210) {
         console.warn('Error occured');
       } else {
-        console.log(request);
         let responseData = JSON.parse(request.responseText);
 
         if(responseData.status == "success"){
-          console.log(responseData);
-          console.log(responseData.data._id);
           this.setState({tripId: responseData.data._id});
         }
       }

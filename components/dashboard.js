@@ -5,7 +5,6 @@ var Config = require('../config');
 
 var {
   ToastAndroid,
-  AsyncStorage,
   View,
   Text,
   Switch,
@@ -14,8 +13,6 @@ var {
 
 import { Trips } from './trips.js';
 import { Geolocation } from './geolocation.js';
-
-let REQUEST_URL = Config.SERVER_URL.concat(Config.TRIP_PATH);
 
 export const Dashboard = React.createClass({
   getInitialState(){
@@ -45,43 +42,9 @@ export const Dashboard = React.createClass({
 
   _handleSwitch(value){
     this.setState({switchIsOn: value});
-
-    if(value){
-      this.saveTrip();
-    }else{
-      // TODO: Stop existing trip and save it in DB
-      Geolocation.endTrip();
-    }
   },
 
   _handleTripsListing(event){
-
-  },
-
-  saveTrip: function(){
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = (e) => {
-      if (request.readyState !== 4) {
-        return;
-      }
-
-      if (request.status > 210) {
-        console.warn('Error occured');
-      } else {
-        let responseData = JSON.parse(request.responseText);
-
-        if(responseData.status == "success"){
-          AsyncStorage.setItem('tripId', responseData.data._id);
-        }
-      }
-    };
-
-    let params = "createdBy="+this.state.userId;
-    request.open('POST', REQUEST_URL);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.setRequestHeader("X-Auth-Token", this.state.authToken);
-    request.setRequestHeader("X-User-Id", this.state.userId);
-    request.send(params);
 
   },
 

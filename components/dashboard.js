@@ -128,13 +128,13 @@ export const Dashboard = React.createClass({
 
   tripsListing(){
     return(
-        <Button
-          style={{backgroundColor: '#87CEFA', height: 30}}
-          textStyle={{fontSize: 14}}
-          onPress={this._handleTripsListing}
-        >
-          Trips
-        </Button>
+      <Button
+        style={{backgroundColor: '#87CEFA', height: 30}}
+        textStyle={{fontSize: 14}}
+        onPress={this._handleTripsListing}
+      >
+        Trips
+      </Button>
     );
   }
 });

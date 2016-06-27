@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactNative = require('react-native');
+var Button = require('apsl-react-native-button');
 var Config = require('../config');
 
 var {
@@ -53,6 +54,10 @@ export const Dashboard = React.createClass({
     }
   },
 
+  _handleTripsListing(event){
+
+  },
+
   saveTrip: function(){
     var request = new XMLHttpRequest();
     request.onreadystatechange = (e) => {
@@ -82,11 +87,13 @@ export const Dashboard = React.createClass({
 
   render(){
 
-    var currentView;
+    let currentView, tripsListing;
     if(this.state.switchIsOn){
       currentView =  <Geolocation />;
+      tripsListing = undefined;
     }else{
       currentView = <Trips />;
+      tripsListing = this.tripsListing();
     }
 
     return(
@@ -101,7 +108,10 @@ export const Dashboard = React.createClass({
 
         <View style={styles.footer}>
 
-          <View style={styles.footerCol}></View>
+          <View style={styles.footerCol}>
+            {tripsListing}
+          </View>
+
           <View style={styles.footerCol}>
             <Switch
               onValueChange={this._handleSwitch}
@@ -114,6 +124,18 @@ export const Dashboard = React.createClass({
       </View>
     );
   },
+
+  tripsListing(){
+    return(
+        <Button
+          style={{backgroundColor: '#87CEFA', height: 30}}
+          textStyle={{fontSize: 14}}
+          onPress={this._handleTripsListing}
+        >
+          Trips
+        </Button>
+    );
+  }
 });
 
 var styles = StyleSheet.create({
@@ -133,11 +155,13 @@ var styles = StyleSheet.create({
   footer: {
     width: 300,
     marginTop:10,
-    alignItems: 'center',
+    marginLeft: 20,
+    marginRight: 20,
+    flexDirection: 'row',
   },
   footerCol: {
     width: 100,
-    alignItems: 'center',
-    justifyContent: 'center'
+    left: 1,
+    flexDirection: 'column',
   }
 });

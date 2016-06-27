@@ -108,9 +108,7 @@ export const Dashboard = React.createClass({
 
         <View style={styles.footer}>
 
-          <View style={styles.footerCol}>
-            {tripsListing}
-          </View>
+          <View style={styles.footerCol}>{tripsListing}</View>
 
           <View style={styles.footerCol}>
             <Switch

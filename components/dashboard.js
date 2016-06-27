@@ -1,6 +1,5 @@
 var React = require('react');
 var ReactNative = require('react-native');
-var Button = require('apsl-react-native-button');
 var Config = require('../config');
 
 var {

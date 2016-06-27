@@ -5,6 +5,7 @@ var Config = require('../config');
 
 var {
   ToastAndroid,
+  AsyncStorage,
   View,
   Text,
   Switch,

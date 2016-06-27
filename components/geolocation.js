@@ -251,6 +251,12 @@ export const Geolocation = React.createClass({
 
   },
 
+  statics: {
+    endTrip: function(){
+      // this.stopTrip();
+    }
+  },
+
   _onRegionChange(region) {
     // this.setState({ region });
   },

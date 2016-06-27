@@ -27,6 +27,7 @@ const LATITUDE_DELTA = 0.000922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 let REQUEST_URL = Config.SERVER_URL.concat(Config.COORDS_PATH);
+let TRIP_REQUEST_URL = Config.SERVER_URL.concat(Config.TRIP_PATH);
 let UPDATE_REQUEST_URL = Config.SERVER_URL.concat(Config.TRIP_UPDATE_PATH);
 
 export const Geolocation = React.createClass({
@@ -153,26 +154,50 @@ export const Geolocation = React.createClass({
         console.log(err);
       }else{
         this.setState({userId: userId});
-      }
-    });
-    AsyncStorage.getItem('tripId', (err, tripId) => {
-      if(err){
-        console.log(err);
-      }else{
-        this.setState({tripId: tripId});
+
+        //Add new trip
+        this.startTrip();
       }
     });
 
   },
 
   componentWillUnmount: function() {
-    navigator.geolocation.clearWatch(this.watchID);
+    //save trip in DB
+    this.stopTrip();
 
-    AsyncStorage.removeItem('tripId', (err) => {
-      if(err){
-        console.log(err);
+    navigator.geolocation.clearWatch(this.watchID);
+  },
+
+  startTrip: function(){
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = (e) => {
+      if (request.readyState !== 4) {
+        return;
       }
-    });
+
+      if (request.status > 210) {
+        console.warn('Error occured');
+      } else {
+        console.log(request);
+        let responseData = JSON.parse(request.responseText);
+
+        if(responseData.status == "success"){
+          console.log(responseData);
+          console.log(responseData.data._id);
+          this.setState({tripId: responseData.data._id});
+        }
+      }
+    };
+
+    let params = "createdBy="+this.state.userId;
+    request.open('POST', TRIP_REQUEST_URL);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    request.setRequestHeader("X-Auth-Token", this.state.authToken);
+    request.setRequestHeader("X-User-Id", this.state.userId);
+    request.send(params);
+
   },
 
   saveTrip: function(latitude, longitude){
@@ -202,23 +227,6 @@ export const Geolocation = React.createClass({
 
   },
 
-  updateCoords: function(latitude, longitude){
-
-    let path = this.state.path.slice();
-    let lat = parseFloat(latitude);
-    let lng = parseFloat(longitude);
-    path.push({latitude: lat, longitude: lng});
-
-    this.setState({path: path});
-
-    //calculate distance
-    let distanceInMeters = Geolib.getPathLength(path);
-    let distance = Geolib.convertUnit('km', distanceInMeters, 2);
-
-    this.setState({distance: distance});
-
-  },
-
   stopTrip: function(){
     var request = new XMLHttpRequest();
     request.onreadystatechange = (e) => {
@@ -234,7 +242,7 @@ export const Geolocation = React.createClass({
         if(responseData.status == "success"){
           console.log(responseData);
 
-          this.state.coordinates.map((coordinate) => {
+          this.state.path.map((coordinate) => {
             this.saveTrip(coordinate.latitude, coordinate.longitude);
           });
 
@@ -251,23 +259,25 @@ export const Geolocation = React.createClass({
 
   },
 
-  statics: {
-    endTrip: function(){
-      // this.stopTrip();
-    }
+  updateCoords: function(latitude, longitude){
+
+    let path = this.state.path.slice();
+    let lat = parseFloat(latitude);
+    let lng = parseFloat(longitude);
+    path.push({latitude: lat, longitude: lng});
+
+    this.setState({path: path});
+
+    let distance = this.distance(path);
+
+    this.setState({distance: distance});
+
   },
 
-  _onRegionChange(region) {
-    // this.setState({ region });
-  },
-
-  _stop( event ){
-    this.stopTrip();
-
-    this.setState({
-      dashboard: true,
-      endMarkerCheck: true
-    });
+  distance: function(path){
+    //calculate distance
+    let distanceInMeters = Geolib.getPathLength(path);
+    return Geolib.convertUnit('km', distanceInMeters, 2);
   },
 
   render: function() {
@@ -319,11 +329,6 @@ export const Geolocation = React.createClass({
           </TouchableOpacity>
         </View>
 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={this._stop} style={[styles.bubble, styles.button]}>
-            <Text>Stop</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     );
   },

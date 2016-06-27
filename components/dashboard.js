@@ -115,7 +115,10 @@ export const Dashboard = React.createClass({
               onValueChange={this._handleSwitch}
               value={this.state.switchIsOn} />
           </View>
-          <View style={styles.footerCol}></View>
+
+          <View style={styles.footerCol}>
+
+          </View>
 
         </View>
 

@@ -99,9 +99,17 @@ export const Dashboard = React.createClass({
 
         <View style={styles.viewContainer}>{currentView}</View>
 
-        <Switch
-          onValueChange={this._handleSwitch}
-          value={this.state.switchIsOn} />
+        <View style={styles.footer}>
+
+          <View style={styles.footerCol}></View>
+          <View style={styles.footerCol}>
+            <Switch
+              onValueChange={this._handleSwitch}
+              value={this.state.switchIsOn} />
+          </View>
+          <View style={styles.footerCol}></View>
+
+        </View>
 
       </View>
     );
@@ -116,10 +124,20 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewContainer: {
-    marginTop: 50,
+    marginTop: 20,
     marginLeft: 20,
     marginRight: 20,
     width: 300,
-    height: 400,
+    height: 450,
+  },
+  footer: {
+    width: 300,
+    marginTop:10,
+    alignItems: 'center',
+  },
+  footerCol: {
+    width: 100,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });

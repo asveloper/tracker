@@ -1,10 +1,9 @@
-var React = require('react');
-var ReactNative = require('react-native');
-var MapView = require('react-native-maps');
-var Geolib = require('geolib');
-var Config = require('../config');
+import React, { Component } from 'react';
+import Meteor, { createContainer } from 'react-native-meteor';
+import MapView from 'react-native-maps';
+import Geolib from 'geolib';
 
-var {
+import {
   StyleSheet,
   Text,
   View,
@@ -12,9 +11,9 @@ var {
   Platform,
   TouchableOpacity,
   AsyncStorage,
-} = ReactNative;
+} from 'react-native';
 
-import { Dashboard } from './dashboard.js';
+import Dashboard from './dashboard.js';
 
 var screen = Dimensions.get('window');
 
@@ -26,24 +25,17 @@ const LONGITUDE = 145.142873;
 const LATITUDE_DELTA = 0.000922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-let REQUEST_URL = Config.SERVER_URL.concat(Config.COORDS_PATH);
-let TRIP_REQUEST_URL = Config.SERVER_URL.concat(Config.TRIP_PATH);
-let UPDATE_REQUEST_URL = Config.SERVER_URL.concat(Config.TRIP_UPDATE_PATH);
+class Geolocation extends Component {
 
-export const Geolocation = React.createClass({
-  watchID: (null: ?number),
+  constructor(props){
+    super(props);
 
-  getInitialState: function() {
-    return {
-      authToken: undefined,
-      userId: undefined,
+    this.state = {
       tripId: undefined,
       distance: 0.0,
-      dashboard: false,
       initialPosition: 'unknown',
       lastPosition: 'unknown',
       path: [],
-      endMarkerCheck: false,
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -51,12 +43,6 @@ export const Geolocation = React.createClass({
         longitudeDelta: LONGITUDE_DELTA
       },
       initialMarker: {
-        coordinate: {
-          latitude: 0,
-          longitude: 0
-        }
-      },
-      endMarker: {
         coordinate: {
           latitude: 0,
           longitude: 0
@@ -83,9 +69,18 @@ export const Geolocation = React.createClass({
         {latitude: -37.87701, longitude: 145.1446022},
       ]
     };
-  },
 
-  componentDidMount: function() {
+    this.watchID;
+
+    //bind functions here
+    this.saveCoordinates = this.saveCoordinates.bind(this);
+    this.stopTrip = this.stopTrip.bind(this);
+    this.updateCoords = this.updateCoords.bind(this);
+  }
+
+  componentDidMount() {
+
+    var _this = this;
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -130,6 +125,7 @@ export const Geolocation = React.createClass({
         }
       });
 
+      this.saveCoordinates(position.coords.latitude, position.coords.longitude);
       this.updateCoords(position.coords.latitude, position.coords.longitude);
 
     },
@@ -142,121 +138,55 @@ export const Geolocation = React.createClass({
       }
     );
 
-    AsyncStorage.getItem('authToken', (err, authToken) => {
+    //Add new trip
+    Meteor.call("newTrip", Meteor.userId(), function(err, tripId){
       if(err){
         console.log(err);
       }else{
-        this.setState({authToken: authToken});
-      }
-    });
-    AsyncStorage.getItem('userId', (err, userId) => {
-      if(err){
-        console.log(err);
-      }else{
-        this.setState({userId: userId});
-
-        //Add new trip
-        this.startTrip();
+        _this.setState({tripId: tripId});
       }
     });
 
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     //save trip in DB
     this.stopTrip();
 
     navigator.geolocation.clearWatch(this.watchID);
-  },
+  }
 
-  startTrip: function(){
+  saveCoordinates(latitude, longitude){
+    var _this = this;
 
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = (e) => {
-      if (request.readyState !== 4) {
-        return;
+    Meteor.collection('coordinates').insert({
+      latitude: latitude.toString(),
+      longitude: longitude.toString(),
+      tripId: _this.state.tripId,
+      createdBy: Meteor.userId()
+    }, (err, coordinatesId) => {
+      if(err){
+        console.log(err);
+      }else{
+        console.log(coordinatesId);
       }
+    });
 
-      if (request.status > 210) {
-        console.warn('Error occured');
-      } else {
-        let responseData = JSON.parse(request.responseText);
+  }
 
-        if(responseData.status == "success"){
-          this.setState({tripId: responseData.data._id});
-        }
+  stopTrip(){
+    var _this = this;
+
+    Meteor.collection('trips').update({_id: _this.state.tripId}, {
+      $set: {
+        distance: _this.state.distance,
+        updatedBy: Meteor.userId()
       }
-    };
+    });
 
-    let params = "createdBy="+this.state.userId;
-    request.open('POST', TRIP_REQUEST_URL);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.setRequestHeader("X-Auth-Token", this.state.authToken);
-    request.setRequestHeader("X-User-Id", this.state.userId);
-    request.send(params);
+  }
 
-  },
-
-  saveTrip: function(latitude, longitude){
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = (e) => {
-      if (request.readyState !== 4) {
-        return;
-      }
-
-      if (request.status > 210) {
-        console.warn('Error occured');
-      } else {
-        let responseData = JSON.parse(request.responseText);
-
-        if(responseData.status == "success"){
-          console.log(responseData);
-        }
-      }
-    };
-
-    let params = "latitude="+latitude+"&longitude="+longitude+"&tripId="+this.state.tripId+"&createdBy="+this.state.userId;
-    request.open('POST', REQUEST_URL);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.setRequestHeader("X-Auth-Token", this.state.authToken);
-    request.setRequestHeader("X-User-Id", this.state.userId);
-    request.send(params);
-
-  },
-
-  stopTrip: function(){
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = (e) => {
-      if (request.readyState !== 4) {
-        return;
-      }
-
-      if (request.status > 210) {
-        console.warn('Error occured');
-      } else {
-        let responseData = JSON.parse(request.responseText);
-
-        if(responseData.status == "success"){
-          console.log(responseData);
-
-          this.state.path.map((coordinate) => {
-            this.saveTrip(coordinate.latitude, coordinate.longitude);
-          });
-
-        }
-      }
-    };
-
-    let params = "distance="+this.state.distance+"&_id="+this.state.tripId+"&updatedBy="+this.state.userId;
-    request.open('POST', UPDATE_REQUEST_URL);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.setRequestHeader("X-Auth-Token", this.state.authToken);
-    request.setRequestHeader("X-User-Id", this.state.userId);
-    request.send(params);
-
-  },
-
-  updateCoords: function(latitude, longitude){
+  updateCoords(latitude, longitude){
 
     let path = this.state.path.slice();
     let lat = parseFloat(latitude);
@@ -269,19 +199,15 @@ export const Geolocation = React.createClass({
 
     this.setState({distance: distance});
 
-  },
+  }
 
-  distance: function(path){
+  distance(path){
     //calculate distance
     let distanceInMeters = Geolib.getPathLength(path);
     return Geolib.convertUnit('km', distanceInMeters, 2);
-  },
+  }
 
-  render: function() {
-
-    if(this.state.dashboard){
-      return <Dashboard />;
-    }
+  render() {
 
     return (
       <View style={styles.container}>
@@ -295,7 +221,6 @@ export const Geolocation = React.createClass({
           zoomEnabled={true}
           loadingEnabled={true}
           lineJoin='miter'
-          onRegionChange={this._onRegionChange}
         >
 
           <MapView.Marker
@@ -328,9 +253,24 @@ export const Geolocation = React.createClass({
 
       </View>
     );
-  },
+  }
 
-});
+}
+
+Geolocation.propTypes = {
+
+};
+
+Geolocation.defaultProps = {
+
+};
+
+export default createContainer(params => {
+
+  return {
+
+  };
+}, Geolocation);
 
 var styles = StyleSheet.create({
   container: {

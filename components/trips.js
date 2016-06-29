@@ -18,10 +18,6 @@ class Trips extends Component {
     // bind functions here
   }
 
-  componentDidMount(){
-    // console.log(Meteor.collection('trips').find().count());
-  }
-
   renderRow(trip){
     let date = new Date(trip.createdAt);
     let day = date.getDate(); //Date of the month: 2 in our example

@@ -10,7 +10,7 @@ import {
 import Meteor, { createContainer } from 'react-native-meteor';
 import Button from 'apsl-react-native-button';
 
-import { Dashboard } from './dashboard.js';
+import Dashboard from './dashboard.js';
 
 class Login extends Component {
 

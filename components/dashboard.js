@@ -61,7 +61,7 @@ class Dashboard extends Component {
       <View style={styles.container}>
 
         <View style={styles.header}>
-          <Text>Log Book User ID: {Meteor.userId()}</Text>
+          <Text>Log Book of {Meteor.user().profile.name} ID: {Meteor.userId()}</Text>
           <Text>Total Trip / Current Trip</Text>
         </View>
 

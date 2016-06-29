@@ -12,6 +12,6 @@ Meteor.ddp.on('connected', () => {
   console.log("DDP connected");
 });
 
-import { Login } from './components/login.js';
+import Login from './components/login.js';
 
 AppRegistry.registerComponent('KoTacTracker', () => Login);

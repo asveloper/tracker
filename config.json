@@ -1,5 +1,6 @@
 {
-  "SERVER_URL": "http://192.168.8.101:3000",
+  "SERVER_URL": "http://192.168.8.100:3000",
+  "SOCKET_URL": "ws://192.168.8.100:3000/websocket",
   "LOGIN_PATH": "/api/login",
   "TRIP_PATH": "/api/trips",
   "COORDS_PATH": "/api/coordinates",

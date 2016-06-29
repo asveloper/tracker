@@ -1,60 +1,42 @@
-var React = require('react');
-var ReactNative = require('react-native');
-var Button = require('apsl-react-native-button');
-var Config = require('../config');
-
-var {
+import React, { Component } from 'react';
+import {
   AsyncStorage,
   StyleSheet,
   Text,
   View,
   TextInput,
-} = ReactNative;
+} from 'react-native';
+
+import Meteor, { createContainer } from 'react-native-meteor';
+import Button from 'apsl-react-native-button';
 
 import { Dashboard } from './dashboard.js';
 
-const REQUEST_URL = Config.SERVER_URL.concat(Config.LOGIN_PATH);
+class Login extends Component {
 
-export const Login = React.createClass({
-  getInitialState(){
-    return{
+  constructor(props){
+    super(props);
+    this.state = {
       dashboard: false
     }
-  },
 
-  _handleLogin(event){
+    this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  handleLogin(event){
+    var _this = this;
+
     let username = this.refs.username.props.value;
     let password = this.refs.password.props.value;
 
-    this.fetchData(username, password);
-
-  },
-
-  fetchData: function(username, password){
-    fetch(REQUEST_URL, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password
-      })
-    })
-    .then((response) => response.json())
-    .then((responseData) => {
-      if(responseData.status == "success"){
-        AsyncStorage.setItem('authToken', responseData.data.authToken);
-        AsyncStorage.setItem('userId', responseData.data.userId);
-
-        this.setState({dashboard: true});
+    Meteor.loginWithPassword(username, password, function(err, result){
+      if(err){
+        console.log(err);
       }else{
-        console.warn("Invalid Username or Password");
+        _this.setState({dashboard: true});
       }
-    })
-    .done();
-  },
+    });
+  }
 
   render(){
 
@@ -86,14 +68,28 @@ export const Login = React.createClass({
         <Button
           style={{backgroundColor: '#87CEFA'}}
           textStyle={{fontSize: 18}}
-          onPress={this._handleLogin}
+          onPress={this.handleLogin}
         >
           Login!
         </Button>
       </View>
     );
-  },
-});
+  }
+}
+
+Login.propTypes = {
+
+};
+
+Login.defaultProps = {
+
+};
+
+export default createContainer(params => {
+  return {
+    check: "hello"
+  };
+}, Login)
 
 var styles = StyleSheet.create({
   input: {

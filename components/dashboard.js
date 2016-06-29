@@ -3,8 +3,6 @@ import Meteor, { createContainer } from 'react-native-meteor';
 import Button from 'apsl-react-native-button';
 
 import {
-  ToastAndroid,
-  AsyncStorage,
   View,
   Text,
   Switch,

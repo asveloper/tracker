@@ -1,53 +1,52 @@
-var React = require('react');
-var ReactNative = require('react-native');
-var Button = require('apsl-react-native-button');
-var Config = require('../config');
+import React, { Component } from 'react';
+import Meteor, { createContainer } from 'react-native-meteor';
+import Button from 'apsl-react-native-button';
 
-var {
+import {
   ToastAndroid,
   AsyncStorage,
   View,
   Text,
   Switch,
   StyleSheet,
-} = ReactNative;
+} from 'react-native';
 
-import { Trips } from './trips.js';
-import { Geolocation } from './geolocation.js';
+import Trips from './trips.js';
+import Geolocation from './geolocation.js';
 
-export const Dashboard = React.createClass({
-  getInitialState(){
-    return{
-      authToken: undefined,
-      userId: undefined,
+class Dashboard extends Component {
+
+  constructor(props){
+    super(props);
+
+    this.state = {
       switchIsOn: false
     }
-  },
 
-  componentDidMount(){
-    AsyncStorage.getItem('authToken', (err, authToken) => {
-      if(err){
-        console.log(err);
-      }else{
-        this.setState({authToken: authToken});
-      }
-    });
-    AsyncStorage.getItem('userId', (err, userId) => {
-      if(err){
-        console.log(err);
-      }else{
-        this.setState({userId: userId});
-      }
-    });
-  },
+    //bind functions here
+    this._handleSwitch = this._handleSwitch.bind(this);
+    this._handleTripsListing = this._handleTripsListing.bind(this);
+  }
 
   _handleSwitch(value){
     this.setState({switchIsOn: value});
-  },
+  }
 
   _handleTripsListing(event){
 
-  },
+  }
+
+  tripsListing(){
+    return(
+      <Button
+        style={{backgroundColor: '#87CEFA', height: 30}}
+        textStyle={{fontSize: 14}}
+        onPress={this._handleTripsListing}
+      >
+        Trips
+      </Button>
+    );
+  }
 
   render(){
 
@@ -64,7 +63,7 @@ export const Dashboard = React.createClass({
       <View style={styles.container}>
 
         <View style={styles.header}>
-          <Text>Log Book User ID: {this.state.userId}</Text>
+          <Text>Log Book User ID: {Meteor.userId()}</Text>
           <Text>Total Trip / Current Trip</Text>
         </View>
 
@@ -88,20 +87,22 @@ export const Dashboard = React.createClass({
 
       </View>
     );
-  },
-
-  tripsListing(){
-    return(
-      <Button
-        style={{backgroundColor: '#87CEFA', height: 30}}
-        textStyle={{fontSize: 14}}
-        onPress={this._handleTripsListing}
-      >
-        Trips
-      </Button>
-    );
   }
-});
+}
+
+Dashboard.propTypes = {
+
+};
+
+Dashboard.defaultProps = {
+
+};
+
+export default createContainer(params => {
+  return {
+
+  };
+}, Dashboard);
 
 var styles = StyleSheet.create({
   container: {

@@ -87,7 +87,6 @@ Login.defaultProps = {
 
 export default createContainer(params => {
   return {
-    check: "hello"
   };
 }, Login)
 

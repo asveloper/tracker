@@ -1,10 +1,10 @@
-var Config = require("./config");
+import Meteor from 'react-native-meteor';
 
 import {
   AppRegistry,
 } from 'react-native';
 
-import Meteor from 'react-native-meteor';
+import Config from "./config.json";
 
 Meteor.connect(Config.SOCKET_URL);
 

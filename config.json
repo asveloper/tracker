@@ -1,4 +1,4 @@
 {
   "PROD_SOCKET_URL": "ws://kotactracker-67122.onmodulus.net/websocket",
-  "DEV_SOCKET_URL": "ws://192.168.0.104:3000/websocket"
+  "DEV_SOCKET_URL": "ws://192.168.8.100:3000/websocket"
 }

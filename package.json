@@ -13,6 +13,7 @@
     "react-mixin": "^3.0.5",
     "react-native": "^0.25.1",
     "react-native-button": "^1.6.0",
+    "react-native-gmaps": "^1.0.9",
     "react-native-mapbox-gl": "^4.1.1",
     "react-native-maps": "^0.4.2",
     "react-native-meteor": "^1.0.0-rc14"

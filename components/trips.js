@@ -22,10 +22,10 @@ class Trips extends Component {
     return(
       <View style={styles.container}>
         <View style={styles.dateColumn}>
-          <Text>Trip Date</Text>
+          <Text style={styles.headerText}>Trip Date</Text>
         </View>
         <View style={styles.distanceColumn}>
-          <Text>Distance</Text>
+          <Text style={styles.headerText}>Distance</Text>
         </View>
       </View>
     );
@@ -119,4 +119,8 @@ var styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#CCCCCC',
   },
+  headerText: {
+    fontSize: 22,
+    fontWeight: "bold"
+  }
 });

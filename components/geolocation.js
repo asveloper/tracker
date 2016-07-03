@@ -203,11 +203,10 @@ class Geolocation extends Component {
     return Geolib.convertUnit('km', distanceInMeters, 2);
   }
 
-  onRegionChange(location){
-    console.log(location);
+  onRegionChange(region){
+    console.log(region);
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log("position");
         console.log(position);
       },
       (error) => {

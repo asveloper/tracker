@@ -237,7 +237,7 @@ class Geolocation extends Component {
           onRegionChange={this.onRegionChange}
         >
 
-          <MapView.Marker
+          <MapView.Marker draggable
             coordinate={this.state.initialMarker.coordinate}
             title='Starting Point'
           />

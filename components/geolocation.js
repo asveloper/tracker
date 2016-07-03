@@ -76,6 +76,7 @@ class Geolocation extends Component {
     this.saveCoordinates = this.saveCoordinates.bind(this);
     this.stopTrip = this.stopTrip.bind(this);
     this.updateCoords = this.updateCoords.bind(this);
+    this.onRegionChange = this.onRegionChange.bind(this);
   }
 
   componentDidMount() {
@@ -159,12 +160,7 @@ class Geolocation extends Component {
   saveCoordinates(latitude, longitude){
     var _this = this;
 
-    Meteor.collection('coordinates').insert({
-      latitude: latitude.toString(),
-      longitude: longitude.toString(),
-      tripId: _this.state.tripId,
-      createdBy: Meteor.userId()
-    }, (err, coordinatesId) => {
+    Meteor.call('addCoordinates', {latitude: latitude.toString(), longitude: longitude.toString(), tripId: _this.state.tripId, createdBy: Meteor.userId()},  (err, coordinatesId) => {
       if(err){
         console.log(err);
       }else{
@@ -207,6 +203,24 @@ class Geolocation extends Component {
     return Geolib.convertUnit('km', distanceInMeters, 2);
   }
 
+  onRegionChange(location){
+    console.log(location);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log("position");
+        console.log(position);
+      },
+      (error) => {
+        console.warn(error);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 1000
+      }
+    );
+
+  }
+
   render() {
 
     return (
@@ -221,6 +235,7 @@ class Geolocation extends Component {
           zoomEnabled={true}
           loadingEnabled={true}
           lineJoin='miter'
+          onRegionChange={this.onRegionChange}
         >
 
           <MapView.Marker

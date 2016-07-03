@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
+  PropTypes,
   View,
 } from 'react-native';
 
@@ -11,6 +12,8 @@ import Meteor,  { createContainer } from 'react-native-meteor';
 class Details extends Component {
   constructor(props){
     super(props);
+
+    console.log(props);
 
     this.state = {
     };
@@ -29,11 +32,11 @@ class Details extends Component {
 
 }
 
-Trips.propTypes = {
-
+Details.propTypes = {
+  tripId: React.PropTypes.string.isRequired
 };
 
-Trips.defaultProps = {
+Details.defaultProps = {
 
 };
 
@@ -42,9 +45,9 @@ export default createContainer(params => {
 
   return {
     tripsReady: handle.ready(),
-    trips: Meteor.collection('trips').find({createdBy: Meteor.userId()}, {sort: {createdAt: -1}})
+    trip: Meteor.collection('trips').find({_id: this.props.tripId})
   };
-}, Trips);
+}, Details);
 
 
 var styles = StyleSheet.create({

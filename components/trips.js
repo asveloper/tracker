@@ -18,6 +18,19 @@ class Trips extends Component {
     // bind functions here
   }
 
+  renderHeader(){
+    return(
+      <View style={styles.container}>
+        <View style={styles.dateColumn}>
+          <Text>Trip Date</Text>
+        </View>
+        <View style={styles.distanceColumn}>
+          <Text>Distance</Text>
+        </View>
+      </View>
+    );
+  }
+
   renderRow(trip){
     let date = new Date(trip.createdAt);
     let day = date.getDate(); //Date of the month: 2 in our example
@@ -45,6 +58,7 @@ class Trips extends Component {
 
       <MeteorComplexListView
         elements={()=>{return Meteor.collection('trips').find({createdBy: Meteor.userId()}, {sort: {createdAt: -1}})}}
+        renderHeader={this.renderHeader}
         renderRow={this.renderRow}
         enableEmptySections={true}
         style={styles.listView}

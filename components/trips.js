@@ -21,14 +21,11 @@ class Trips extends Component {
     };
 
     // bind functions here
+    this.onRender = this.onRender.bind(this);
   }
 
   componentWillUnmount(){
     console.log("trips component mounted");
-    this.setState({
-      details: false,
-      tripId: undefined
-    });
   }
 
   showDetails(trip){
@@ -36,6 +33,10 @@ class Trips extends Component {
       tripId: trip._id,
       details: true
     });
+  }
+
+  onRender(){
+    console.log("Parent function called from child");
   }
 
   renderHeader(){
@@ -77,7 +78,7 @@ class Trips extends Component {
     const { tripsReady } = this.props;
 
     if(this.state.details){
-      return <Details tripId={this.state.tripId} />;
+      return <Details tripId={this.state.tripId} onRender={this.onRender} />;
     }
 
     return (

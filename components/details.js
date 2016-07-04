@@ -19,6 +19,10 @@ class Details extends Component {
     // bind functions here
   }
 
+  componentDidMount(){
+    this.props.onRender();
+  }
+
   render() {
 
     const { tripReady, trip } = this.props;

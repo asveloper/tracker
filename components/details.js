@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Meteor,  { createContainer } from 'react-native-meteor';
 
 import {
   StyleSheet,
@@ -7,7 +8,7 @@ import {
   View,
 } from 'react-native';
 
-import Meteor,  { createContainer } from 'react-native-meteor';
+import DateFromTimestamp from './modules/dates.js';
 
 class Details extends Component {
   constructor(props){
@@ -25,6 +26,7 @@ class Details extends Component {
 
     return (
       <View>
+        <Text>Date: {DateFromTimestamp(trip.createdAt)}</Text>
         <Text>Distance: {trip.distance} KM</Text>
       </View>
     );

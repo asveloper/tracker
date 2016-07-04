@@ -11,6 +11,9 @@ import {
 import Meteor,  { createContainer, MeteorComplexListView } from 'react-native-meteor';
 
 import Details from './details.js';
+import DateFromTimestamp from './modules/dates.js';
+
+console.log(DateFromTimestamp);
 
 class Trips extends Component {
   constructor(props){
@@ -46,16 +49,13 @@ class Trips extends Component {
 
   renderRow(trip){
 
-    let date = new Date(trip.createdAt);
-    let day = date.getDate(); //Date of the month: 2 in our example
-    let month = date.getMonth() + 1; //Month of the Year: 0-based index, so 1 in our example
-    let year = date.getFullYear(); //Year: 2013
+    let date = DateFromTimestamp(trip.createdAt);
 
     return(
       <TouchableHighlight onPress={() => this.showDetails(trip)}>
         <View style={styles.container}>
           <View style={styles.dateColumn}>
-            <Text>{day}-{month}-{year}</Text>
+            <Text>{date}</Text>
           </View>
           <View style={styles.distanceColumn}>
             <Text>{trip.distance} KM</Text>

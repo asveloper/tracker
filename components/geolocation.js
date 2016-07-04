@@ -163,8 +163,6 @@ class Geolocation extends Component {
     Meteor.call('addCoordinates', {latitude: latitude.toString(), longitude: longitude.toString(), tripId: _this.state.tripId, createdBy: Meteor.userId()},  (err, coordinatesId) => {
       if(err){
         console.log(err);
-      }else{
-        console.log(coordinatesId);
       }
     });
 

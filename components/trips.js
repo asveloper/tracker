@@ -29,10 +29,10 @@ class Trips extends Component {
   }
 
   showDetails(trip){
-    this.setState({
-      tripId: trip._id,
-      details: true
-    });
+    // this.setState({
+    //   tripId: trip._id,
+    //   details: true
+    // });
   }
 
   onRender(){

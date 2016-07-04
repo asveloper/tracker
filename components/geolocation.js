@@ -221,7 +221,7 @@ class Geolocation extends Component {
         console.warn(error);
       },
       {
-        enableHighAccuracy: false,
+        enableHighAccuracy: true,
         timeout: 1000
       }
     );

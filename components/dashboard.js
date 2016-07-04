@@ -50,13 +50,11 @@ class Dashboard extends Component {
 
   render(){
 
-    let currentView, tripsListing;
+    let currentView;
     if(this.state.switchIsOn){
       currentView =  <Geolocation />;
-      tripsListing = undefined;
     }else{
       currentView = <Trips />;
-      tripsListing = this.tripsListing();
     }
 
     return(
@@ -71,7 +69,7 @@ class Dashboard extends Component {
 
         <View style={styles.footer}>
 
-          <View style={styles.footerCol}>{tripsListing}</View>
+          <View style={styles.footerCol}>{this.tripsListing()}</View>
 
           <View style={styles.footerCol}>
             <Switch

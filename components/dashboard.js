@@ -36,7 +36,7 @@ class Dashboard extends Component {
     });
   }
 
-  tripsListing(){
+  tripsListingButton(){
     return(
       <Button
         style={{backgroundColor: '#87CEFA', height: 30}}
@@ -69,7 +69,7 @@ class Dashboard extends Component {
 
         <View style={styles.footer}>
 
-          <View style={styles.footerCol}>{this.tripsListing()}</View>
+          <View style={styles.footerCol}>{this.tripsListingButton()}</View>
 
           <View style={styles.footerCol}>
             <Switch

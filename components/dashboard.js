@@ -50,12 +50,7 @@ class Dashboard extends Component {
 
   render(){
 
-    let currentView;
-    if(this.state.switchIsOn){
-      currentView =  <Geolocation />;
-    }else{
-      currentView = <Trips />;
-    }
+    let currentView = this.state.switchIsOn ? <Geolocation /> : <Trips />;
 
     return(
       <View style={styles.container}>

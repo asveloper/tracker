@@ -18,12 +18,14 @@ class Dashboard extends Component {
     super(props);
 
     this.state = {
-      switchIsOn: false
+      switchIsOn: false,
+      showDetails: false
     }
 
     //bind functions here
     this._handleSwitch = this._handleSwitch.bind(this);
     this._handleTripsListing = this._handleTripsListing.bind(this);
+    this.showTrip = this.showTrip.bind(this);
   }
 
   _handleSwitch(value){
@@ -32,7 +34,14 @@ class Dashboard extends Component {
 
   _handleTripsListing(event){
     this.setState({
-      switchIsOn: false
+      switchIsOn: false,
+      showDetails: false
+    });
+  }
+
+  showTrip(value){
+    this.setState({
+      showDetails: value
     });
   }
 
@@ -50,7 +59,7 @@ class Dashboard extends Component {
 
   render(){
 
-    let currentView = this.state.switchIsOn ? <Geolocation /> : <Trips />;
+    let currentView = this.state.switchIsOn ? <Geolocation /> : <Trips details={this.state.showDetails}  showTrip={this.showTrip} />;
 
     return(
       <View style={styles.container}>

@@ -31,7 +31,9 @@ class Dashboard extends Component {
   }
 
   _handleTripsListing(event){
-
+    this.setState({
+      switchIsOn: false
+    });
   }
 
   tripsListing(){

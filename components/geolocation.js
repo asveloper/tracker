@@ -209,7 +209,9 @@ class Geolocation extends Component {
 
   onRegionChange(region){
     console.log(region);
-    this.setState(region);
+    this.setState({
+      testRegion: region
+    });
 
     navigator.geolocation.getCurrentPosition(
       (position) => {

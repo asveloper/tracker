@@ -13,8 +13,6 @@ class Details extends Component {
   constructor(props){
     super(props);
 
-    console.log(props);
-
     this.state = {
     };
 
@@ -23,10 +21,12 @@ class Details extends Component {
 
   render() {
 
-    const { tripsReady } = this.props;
+    const { tripReady, trip } = this.props;
 
     return (
-
+      <View>
+        <Text>Distance: {trip.distance} KM</Text>
+      </View>
     );
   }
 
@@ -44,8 +44,8 @@ export default createContainer(params => {
   const handle = Meteor.subscribe('trips');
 
   return {
-    tripsReady: handle.ready(),
-    trip: Meteor.collection('trips').find({_id: this.props.tripId})
+    tripReady: handle.ready(),
+    trip: Meteor.collection('trips').findOne({_id: params.tripId})
   };
 }, Details);
 

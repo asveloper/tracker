@@ -17,7 +17,8 @@ class Trips extends Component {
 
     this.state = {
       details: false,
-      tripId: undefined
+      tripId: undefined,
+      removeDetails: false
     };
 
     // bind functions here

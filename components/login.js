@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import Meteor, { createContainer } from 'react-native-meteor';
-import Button from 'apsl-react-native-button';
+import Button from 'react-native-awesome-button';
 
 import Dashboard from './dashboard.js';
 
@@ -17,7 +17,8 @@ class Login extends Component {
   constructor(props){
     super(props);
     this.state = {
-      dashboard: false
+      dashboard: false,
+      buttonState: 'idle'
     }
 
     this.handleLogin = this.handleLogin.bind(this);
@@ -29,10 +30,13 @@ class Login extends Component {
     let username = this.refs.username.props.value;
     let password = this.refs.password.props.value;
 
+    this.setState({ buttonState: 'busy' });
+
     Meteor.loginWithPassword(username, password, function(err, result){
       if(err){
         console.log(err);
       }else{
+        _this.setState({ buttonState: 'success' })
         _this.setState({dashboard: true});
       }
     });
@@ -45,14 +49,18 @@ class Login extends Component {
     }
 
     return(
-      <View>
+      <View style={styles.container}>
+
         <TextInput
           style={styles.input}
           autoFocus={true}
-          keyboardType='default'
+          keyboardType={'default'}
           placeholder='Username'
           ref="username"
+          returnKeyType={'next'}
+          enablesReturnKeyAutomatically={true}
           onChangeText={(username) => this.setState({username})}
+          onSubmitEditing={(event) => { this.refs.password.focus(); }}
           value={this.state.username}
         />
 
@@ -61,17 +69,38 @@ class Login extends Component {
           placeholder='Password'
           secureTextEntry={true}
           ref="password"
+          returnKeyType={'done'}
+          enablesReturnKeyAutomatically={true}
+          onSubmitEditing={this.handleLogin}
           onChangeText={(password) => this.setState({password})}
           value={this.state.password}
         />
 
-        <Button
-          style={{backgroundColor: '#87CEFA'}}
-          textStyle={{fontSize: 18}}
-          onPress={this.handleLogin}
-        >
-          Login!
-        </Button>
+        <View>
+          <Button
+            backgroundStyle={styles.loginButtonBackground}
+            labelStyle={styles.loginButtonLabel}
+            transitionDuration={200}
+            buttonState={this.state.buttonState}
+            states={{
+              idle: {
+                text: 'Log In',
+                onPress: this.handleLogin,
+                backgroundColor: '#1155DD',
+              },
+              busy: {
+                text: 'Logging In',
+                backgroundColor: '#002299',
+                spinner: true,
+              },
+              success: {
+                text: 'Logged In',
+                backgroundColor: '#339944'
+              }
+            }}
+          />
+        </View>
+
       </View>
     );
   }
@@ -91,9 +120,26 @@ export default createContainer(params => {
 }, Login)
 
 var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
   input: {
-    height: 40,
+    height: 50,
     borderColor: 'gray',
-    borderWidth: 1
+    borderWidth: 1,
+    marginRight: 10,
+    marginLeft: 10,
+    fontSize: 18
+  },
+  loginButtonBackground: {
+    width: 100,
+    height: 40,
+    borderRadius: 5
+  },
+  loginButtonLabel: {
+    color: 'white'
   }
 });

@@ -42,6 +42,12 @@ class Geolocation extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
+      testRegion: {
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
+      },
       initialMarker: {
         coordinate: {
           latitude: 0,
@@ -203,6 +209,8 @@ class Geolocation extends Component {
 
   onRegionChange(region){
     console.log(region);
+    this.setState(region);
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         console.log(position);
@@ -253,7 +261,7 @@ class Geolocation extends Component {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.bubble, styles.coords]}>
-            <Text>{this.state.region.latitude}, {this.state.region.longitude}</Text>
+            <Text>{this.state.testRegion.latitude}, {this.state.testRegion.longitude}</Text>
           </TouchableOpacity>
         </View>
 

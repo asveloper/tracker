@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
+  PropTypes,
   TouchableHighlight,
 } from 'react-native';
 
@@ -16,28 +17,18 @@ class Trips extends Component {
     super(props);
 
     this.state = {
-      details: false,
-      tripId: undefined,
-      removeDetails: false
+      tripId: undefined
     };
 
     // bind functions here
-    this.onRender = this.onRender.bind(this);
-  }
-
-  componentWillUnmount(){
-    console.log("trips component unmounted");
   }
 
   showDetails(trip){
     this.setState({
-      tripId: trip._id,
-      details: true
+      tripId: trip._id
     });
-  }
 
-  onRender(){
-    console.log("Parent function called from child");
+    this.props.showTrip(true);
   }
 
   renderHeader(){
@@ -76,10 +67,10 @@ class Trips extends Component {
 
   render() {
 
-    const { tripsReady } = this.props;
+    const { tripsReady, details } = this.props;
 
-    if(this.state.details){
-      return <Details tripId={this.state.tripId} onRender={this.onRender} />;
+    if(details){
+      return <Details tripId={this.state.tripId}  />;
     }
 
     return (
@@ -98,7 +89,8 @@ class Trips extends Component {
 }
 
 Trips.propTypes = {
-
+  details: React.PropTypes.bool.isRequired,
+  showTrip: React.PropTypes.func.isRequired
 };
 
 Trips.defaultProps = {

@@ -25,14 +25,14 @@ class Trips extends Component {
   }
 
   componentWillUnmount(){
-    console.log("trips component mounted");
+    console.log("trips component unmounted");
   }
 
   showDetails(trip){
-    // this.setState({
-    //   tripId: trip._id,
-    //   details: true
-    // });
+    this.setState({
+      tripId: trip._id,
+      details: true
+    });
   }
 
   onRender(){

@@ -13,8 +13,6 @@ import Meteor,  { createContainer, MeteorComplexListView } from 'react-native-me
 import Details from './details.js';
 import DateFromTimestamp from './modules/dates.js';
 
-console.log(DateFromTimestamp);
-
 class Trips extends Component {
   constructor(props){
     super(props);

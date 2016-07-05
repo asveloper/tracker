@@ -1,32 +1,77 @@
 import React, { Component } from 'react';
 import Meteor,  { createContainer } from 'react-native-meteor';
+import MapView from 'react-native-maps';
 import moment from 'moment';
 
 import {
   StyleSheet,
   Text,
   PropTypes,
+  Dimensions,
   View,
 } from 'react-native';
+
+var screen = Dimensions.get('window');
+
+const ASPECT_RATIO = screen.width / screen.height;
+const LATITUDE = 37.78825;
+const LONGITUDE = -122.4324;
+const LATITUDE_DELTA = 0.000922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 class Details extends Component {
   constructor(props){
     super(props);
 
     this.state = {
+      region: {
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
+      },
     };
 
     // bind functions here
     this.displayTime = this.displayTime.bind(this);
+    this.onRegionChange = this.onRegionChange.bind(this);
   }
 
-  displayTime(trip, obj){
+  componentDidMount(){
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        var initialPosition = JSON.stringify(position);
+        this.setState({initialPosition});
+
+        this.setState({
+          region: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA
+          }
+        });
+
+      },
+      (error) => {
+        console.warn(error);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 1000
+      }
+    );
+  }
+
+  onRegionChange(region){
+    this.setState({region});
+  }
+
+  displayTime(obj){
     let time = null;
 
     if(obj != null){
       time = moment(obj.createdAt).format("DD-MM-YYYY, h:mm:ss a");
-    }else{
-      time = moment(trip.createdAt).format("DD-MM-YYYY, h:mm:ss a");
     }
 
     return time;
@@ -38,9 +83,22 @@ class Details extends Component {
 
     return (
       <View>
-        <Text>Start Time: {this.displayTime(trip, startTime)}</Text>
-        <Text>End Time: {this.displayTime(trip, endTime)}</Text>
-        <Text>Distance: {trip.distance} KM</Text>
+        <Text>Start Time: {this.displayTime(startTime)}</Text>
+        <Text>End Time: {this.displayTime(endTime)}</Text>
+
+        <View style={styles.mapView}>
+          <MapView
+            ref="map1"
+            style={styles.map}
+            region={this.state.region}
+            zoomEnabled={true}
+            loadingEnabled={true}
+            onRegionChange={this.onRegionChange}
+          >
+
+          </MapView>
+
+        </View>
       </View>
     );
   }
@@ -101,4 +159,19 @@ var styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#CCCCCC',
   },
+  mapView: {
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    width: 250,
+    height: 350,
+  },
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+
 });

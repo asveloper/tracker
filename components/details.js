@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Meteor,  { createContainer } from 'react-native-meteor';
+import moment from 'moment';
 
 import {
   StyleSheet,
@@ -7,8 +8,6 @@ import {
   PropTypes,
   View,
 } from 'react-native';
-
-import DateFromTimestamp from './modules/dates.js';
 
 class Details extends Component {
   constructor(props){
@@ -18,15 +17,29 @@ class Details extends Component {
     };
 
     // bind functions here
+    this.displayTime = this.displayTime.bind(this);
+  }
+
+  displayTime(trip, obj){
+    let time = null;
+
+    if(obj != null){
+      time = moment(obj.createdAt).format("DD-MM-YYYY, h:mm:ss a");
+    }else{
+      time = moment(trip.createdAt).format("DD-MM-YYYY, h:mm:ss a");
+    }
+
+    return time;
   }
 
   render() {
 
-    const { tripReady, trip } = this.props;
+    const { tripReady, trip, startTime, endTime } = this.props;
 
     return (
       <View>
-        <Text>Date: {DateFromTimestamp(trip.createdAt)}</Text>
+        <Text>Start Time: {this.displayTime(trip, startTime)}</Text>
+        <Text>End Time: {this.displayTime(trip, endTime)}</Text>
         <Text>Distance: {trip.distance} KM</Text>
       </View>
     );
@@ -44,10 +57,14 @@ Details.defaultProps = {
 
 export default createContainer(params => {
   const handle = Meteor.subscribe('trips');
+  Meteor.subscribe('coordinates');
 
   return {
     tripReady: handle.ready(),
-    trip: Meteor.collection('trips').findOne({_id: params.tripId})
+    trip: Meteor.collection('trips').findOne({_id: params.tripId}),
+    coordinates: Meteor.collection('coordinates').find({tripId: params.tripId}, {sort: {createdAt: 1}}),
+    startTime: Meteor.collection('coordinates').findOne({tripId: params.tripId}, {sort: {createdAt: 1}}),
+    endTime: Meteor.collection('coordinates').findOne({tripId: params.tripId}, {sort: {createdAt: -1}})
   };
 }, Details);
 

@@ -23,20 +23,7 @@ class Dashboard extends Component {
     }
 
     //bind functions here
-    this._handleSwitch = this._handleSwitch.bind(this);
-    this._handleTripsListing = this._handleTripsListing.bind(this);
     this.showTrip = this.showTrip.bind(this);
-  }
-
-  _handleSwitch(value){
-    this.setState({switchIsOn: value});
-  }
-
-  _handleTripsListing(event){
-    this.setState({
-      switchIsOn: false,
-      showDetails: false
-    });
   }
 
   showTrip(value){
@@ -50,7 +37,7 @@ class Dashboard extends Component {
       <Button
         style={{backgroundColor: '#87CEFA', height: 30}}
         textStyle={{fontSize: 14}}
-        onPress={this._handleTripsListing}
+        onPress={(event) => this.setState({switchIsOn: false, showDetails: false})}
       >
         Trips
       </Button>
@@ -60,6 +47,7 @@ class Dashboard extends Component {
   render(){
 
     let currentView = this.state.switchIsOn ? <Geolocation /> : <Trips details={this.state.showDetails}  showTrip={this.showTrip} />;
+    let switchColor = this.state.switchIsOn ? '#7fff00' : '#ff0000';
 
     return(
       <View style={styles.container}>
@@ -77,8 +65,13 @@ class Dashboard extends Component {
 
           <View style={styles.footerCol}>
             <Switch
-              onValueChange={this._handleSwitch}
-              value={this.state.switchIsOn} />
+              onValueChange={(value) => this.setState({switchIsOn: value})}
+              value={this.state.switchIsOn}
+              onTintColor={'#7fff00'}
+              tintColor={'#ff0000'}
+              thumbTintColor={switchColor}
+              style={{backgroundColor: switchColor}}
+            />
           </View>
 
           <View style={styles.footerCol}>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
 import Button from 'apsl-react-native-button';
-import MaterialSwitch from 'react-native-material-switch';
+import MaterialSwitch from 'react-native-material-design-switch';
 
 import {
   Platform,

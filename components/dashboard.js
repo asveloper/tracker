@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
 import Button from 'apsl-react-native-button';
+import MaterialSwitch from 'react-native-material-switch';
 
 import {
+  Platform,
   View,
   Text,
   Switch,
@@ -35,13 +37,40 @@ class Dashboard extends Component {
   tripsListingButton(){
     return(
       <Button
-        style={{backgroundColor: '#87CEFA', height: 30}}
+        style={{backgroundColor: '#87CEFA', height: 45}}
         textStyle={{fontSize: 14}}
         onPress={(event) => this.setState({switchIsOn: false, showDetails: false})}
       >
         Trips
       </Button>
     );
+  }
+
+  switch(){
+    if(Platform.OS === 'ios'){
+      return (
+        <Switch
+          onValueChange={(value) => this.setState({switchIsOn: value})}
+          value={this.state.switchIsOn}
+          onTintColor={'#7fff00'}
+          tintColor={'#ff0000'}
+          thumbTintColor={switchColor}
+        />
+      );
+    }else{
+      return (
+        <MaterialSwitch
+          onChangeState={(value) => this.setState({switchIsOn: value})}
+          inactiveButtonColor={'#42A5F5'}
+          inactiveBackgroundColor={'#ff0000'}
+          inactiveButtonPressedColor={'#42A5F5'}
+          activeButtonColor={'#42A5F5'}
+          activeBackgroundColor={'#7fff00'}
+          switchWidth={70}
+          switchHeight={40}
+        />
+      );
+    }
   }
 
   render(){
@@ -63,15 +92,8 @@ class Dashboard extends Component {
 
           <View style={styles.footerCol}>{this.tripsListingButton()}</View>
 
-          <View style={styles.footerCol}>
-            <Switch
-              onValueChange={(value) => this.setState({switchIsOn: value})}
-              value={this.state.switchIsOn}
-              onTintColor={'#7fff00'}
-              tintColor={'#ff0000'}
-              thumbTintColor={switchColor}
-              style={{backgroundColor: switchColor}}
-            />
+          <View style={styles.buttonCol}>
+            {this.switch()}
           </View>
 
           <View style={styles.footerCol}>
@@ -111,7 +133,7 @@ var styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     width: 300,
-    height: 450,
+    height: 430,
   },
   footer: {
     width: 300,
@@ -124,5 +146,13 @@ var styles = StyleSheet.create({
     width: 100,
     left: 1,
     flexDirection: 'column',
-  }
+  },
+  buttonCol: {
+    width: 120,
+    left: 1,
+    marginTop: -10,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

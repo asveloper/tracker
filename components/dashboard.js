@@ -25,7 +25,15 @@ class Dashboard extends Component {
     }
 
     //bind functions here
+    this.handleTrips = this.handleTrips.bind(this);
     this.showTrip = this.showTrip.bind(this);
+  }
+
+  handleTrips(event){
+    this.setState({
+      switchIsOn: false,
+      showDetails: false
+    });
   }
 
   showTrip(value){
@@ -39,7 +47,7 @@ class Dashboard extends Component {
       <Button
         style={{backgroundColor: '#87CEFA', height: 45}}
         textStyle={{fontSize: 14}}
-        onPress={(event) => this.setState({switchIsOn: false, showDetails: false})}
+        onPress={this.handleTrips}
       >
         Trips
       </Button>

@@ -9,6 +9,7 @@
     "apsl-react-native-button": "^2.5.0",
     "geolib": "^2.0.21",
     "google-maps": "^3.2.1",
+    "moment": "^2.14.1",
     "react": "^0.14.8",
     "react-mixin": "^3.0.5",
     "react-native": "^0.25.1",

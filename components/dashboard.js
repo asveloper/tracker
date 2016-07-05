@@ -82,7 +82,7 @@ class Dashboard extends Component {
       <View style={styles.container}>
 
         <View style={styles.header}>
-          <Text>Log Book of {Meteor.user().profile.name} ID: {Meteor.userId()}</Text>
+          <Text>Log Book of <Text style={styles.userName}>{Meteor.user().profile.name}</Text> ID: {Meteor.userId()}</Text>
           <Text>Total Trip / Current Trip</Text>
         </View>
 
@@ -155,4 +155,8 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  userName: {
+    fontSize: 18,
+    fontWeight: "bold"
+  }
 });

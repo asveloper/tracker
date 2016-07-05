@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Meteor,  { createContainer, MeteorComplexListView } from 'react-native-meteor';
+import moment from 'moment';
 
 import {
   StyleSheet,
@@ -8,10 +10,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-import Meteor,  { createContainer, MeteorComplexListView } from 'react-native-meteor';
-
 import Details from './details.js';
-import DateFromTimestamp from './modules/dates.js';
 
 class Trips extends Component {
   constructor(props){
@@ -47,7 +46,7 @@ class Trips extends Component {
 
   renderRow(trip){
 
-    let date = DateFromTimestamp(trip.createdAt);
+    let date = moment(trip.createdAt).format("DD-MM-YYYY");
 
     return(
       <TouchableHighlight onPress={() => this.showDetails(trip)}>

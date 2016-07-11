@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
   View,
@@ -14,13 +15,13 @@ import {
 import Dashboard from './dashboard.js';
 
 const data = [
-  {label: "Payments", value: "payments"},
-  {label: "History", value: "history"},
-  {label: "Help", value: "help"},
-  {label: "Free Rides", value: "freeRides"},
-  {label: "Promotions", value: "promotions"},
-  {label: "Notifications", value: "notifications"},
-  {label: "Settings", value: "settings"}
+  {label: "Payments", value: "payments", iconName: "credit-card"},
+  {label: "History", value: "history", iconName: "circle-o"},
+  {label: "Help", value: "help", iconName: "support"},
+  {label: "Free Rides", value: "freeRides", iconName: "share-alt"},
+  {label: "Promotions", value: "promotions", iconName: "sun-o"},
+  {label: "Notifications", value: "notifications", iconName: "bell-o"},
+  {label: "Settings", value: "settings", iconName: "gear"}
 ]
 
 class Home extends Component {
@@ -52,8 +53,13 @@ class Home extends Component {
           this._pressRow(rowID);
         }}>
         <View style={styles.content}>
-          <View>
-            <Text style={styles.rowLabel}>{rowData.label}</Text>
+          <View style={styles.drawerListRow}>
+            <View style={styles.drawerListIcon}>
+              <Icon name={rowData.iconName} size={15} color="#3b5998"></Icon>
+            </View>
+            <View style={styles.drawerListLabel}>
+              <Text style={styles.rowLabel}>{rowData.label}</Text>
+            </View>
           </View>
         </View>
       </TouchableHighlight>
@@ -150,5 +156,20 @@ var styles = StyleSheet.create({
   rowLabel: {
     color: '#fff',
     fontSize: 18
+  },
+  drawerListRow: {
+    flexDirection: 'row',
+  },
+  drawerListIcon: {
+    width: 40,
+    left: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    marginRight: 10
+  },
+  drawerListLabel: {
+    width: 150,
+    left: 1,
+    flexDirection: 'column',
   },
 });

@@ -202,6 +202,9 @@ class Geolocation extends Component {
 
     this.setState({distance: distance});
 
+    // Updating current trip distance
+    this.currentTrip();
+
   }
 
   distance(path){

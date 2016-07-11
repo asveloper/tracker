@@ -9,6 +9,8 @@ import {
   Text,
   Switch,
   StyleSheet,
+  TouchableHighlight,
+  Image,
 } from 'react-native';
 
 import Trips from './trips.js';
@@ -44,13 +46,16 @@ class Dashboard extends Component {
 
   tripsListingButton(){
     return(
-      <Button
-        style={{backgroundColor: '#87CEFA', height: 45}}
-        textStyle={{fontSize: 14}}
+      <TouchableHighlight
         onPress={this.handleTrips}
+        style={styles.buttonContainer}
+        underlayColor='transparent'
       >
-        Trips
-      </Button>
+        <Image
+          style={styles.button}
+          source={require('../assets/images/trips_history.png')}
+        />
+      </TouchableHighlight>
     );
   }
 
@@ -166,5 +171,10 @@ var styles = StyleSheet.create({
   userName: {
     fontSize: 18,
     fontWeight: "bold"
+  },
+  buttonContainer: {
+    height: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });

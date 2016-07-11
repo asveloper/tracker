@@ -27,6 +27,9 @@ class Home extends Component {
   render(){
 
     let navigationView = (
+
+      {/* TODO: Add list view to display items in drawer */}
+
       <TouchableHighlight style={{flex: 1, backgroundColor: '#000', marginTop: 30}} underlayColor={'transparent'} onPress={() => this.setState({text: "Sumbal"})}>
         <Text style={{margin: 10, fontSize: 15, textAlign: 'left', color: '#fff'}}>I'm in the Drawer!</Text>
       </TouchableHighlight>
@@ -43,6 +46,7 @@ class Home extends Component {
         onDrawerClose={() => StatusBar.setHidden(false)}
       >
         <View style={{flex: 1, alignItems: 'center'}}>
+
           <StatusBar
               translucent={this.state.translucent}
           />

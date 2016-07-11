@@ -116,6 +116,10 @@ android {
     defaultConfig {
         multiDexEnabled true
     }
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
+    }
 
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
@@ -133,6 +137,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-mapbox-gl')
     compile project(':react-native-maps')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"

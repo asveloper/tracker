@@ -23,12 +23,14 @@ class Dashboard extends Component {
 
     this.state = {
       switchIsOn: false,
-      showDetails: false
+      showDetails: false,
+      currentTrip: undefined
     }
 
     //bind functions here
     this.handleTrips = this.handleTrips.bind(this);
     this.showTrip = this.showTrip.bind(this);
+    this.currentTrip = this.currentTrip.bind(this);
   }
 
   handleTrips(event){
@@ -38,9 +40,17 @@ class Dashboard extends Component {
     });
   }
 
+  // Trips
   showTrip(value){
     this.setState({
       showDetails: value
+    });
+  }
+
+  // Geolocation
+  currentTrip(value){
+    this.setState({
+      currentTrip: value
     });
   }
 
@@ -86,9 +96,21 @@ class Dashboard extends Component {
     }
   }
 
+  renderCurrentTrip(){
+    if(this.state.currentTrip){
+      return (
+        <Text>Current Trip: {this.state.currentTrip} KM</Text>
+      );
+    }else{
+      return (
+        <Text>Total Trip: 0 KM</Text>
+      );
+    }
+  }
+
   render(){
 
-    let currentView = this.state.switchIsOn ? <Geolocation /> : <Trips details={this.state.showDetails}  showTrip={this.showTrip} />;
+    let currentView = this.state.switchIsOn ? <Geolocation currentTrip={this.currentTrip} /> : <Trips details={this.state.showDetails}  showTrip={this.showTrip} />;
     let switchColor = this.state.switchIsOn ? '#7fff00' : '#ff0000';
 
     return(
@@ -96,7 +118,7 @@ class Dashboard extends Component {
 
         <View style={styles.header}>
           <Text>Log Book of <Text style={styles.userName}>{Meteor.user().profile.name}</Text> ID: {Meteor.userId()}</Text>
-          <Text>Total Trip / Current Trip</Text>
+          {this.renderCurrentTrip()}
         </View>
 
         <View style={styles.viewContainer}>{currentView}</View>

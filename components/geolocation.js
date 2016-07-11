@@ -11,6 +11,7 @@ import {
   Platform,
   TouchableOpacity,
   AsyncStorage,
+  PropTypes,
 } from 'react-native';
 
 import Dashboard from './dashboard.js';
@@ -83,6 +84,7 @@ class Geolocation extends Component {
     this.stopTrip = this.stopTrip.bind(this);
     this.updateCoords = this.updateCoords.bind(this);
     this.onRegionChange = this.onRegionChange.bind(this);
+    this.currentTrip = this.currentTrip.bind(this);
   }
 
   componentDidMount() {
@@ -228,6 +230,10 @@ class Geolocation extends Component {
 
   }
 
+  currentTrip(){
+    this.props.currentTrip(this.state.distance);
+  }
+
   render() {
 
     return (
@@ -280,7 +286,7 @@ class Geolocation extends Component {
 }
 
 Geolocation.propTypes = {
-
+  currentTrip: React.PropTypes.func.isRequired
 };
 
 Geolocation.defaultProps = {

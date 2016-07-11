@@ -89,6 +89,15 @@ class Geolocation extends Component {
 
     var _this = this;
 
+    //Add new trip
+    Meteor.call("newTrip", Meteor.userId(), function(err, tripId){
+      if(err){
+        console.log(err);
+      }else{
+        _this.setState({tripId: tripId});
+      }
+    });
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         var initialPosition = JSON.stringify(position);
@@ -145,16 +154,6 @@ class Geolocation extends Component {
       }
     );
 
-    //Add new trip
-    Meteor.call("newTrip", Meteor.userId(), function(err, tripId){
-      if(err){
-        console.log(err);
-      }else{
-        _this.setState({tripId: tripId});
-      }
-    });
-
-
     this.currentTrip();
 
   }
@@ -169,7 +168,7 @@ class Geolocation extends Component {
   saveCoordinates(latitude, longitude){
     var _this = this;
 
-    Meteor.call('addCoordinates', {latitude: latitude.toString(), longitude: longitude.toString(), tripId: _this.state.tripId.toString(), createdBy: Meteor.userId()},  (err, coordinatesId) => {
+    Meteor.call('addCoordinates', {latitude: latitude.toString(), longitude: longitude.toString(), tripId: _this.state.tripId, createdBy: Meteor.userId()},  (err, coordinatesId) => {
       if(err){
         console.log(err);
       }

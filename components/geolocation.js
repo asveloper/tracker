@@ -14,8 +14,6 @@ import {
   PropTypes,
 } from 'react-native';
 
-import Dashboard from './dashboard.js';
-
 var screen = Dimensions.get('window');
 
 const ASPECT_RATIO = screen.width / screen.height;

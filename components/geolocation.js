@@ -156,6 +156,9 @@ class Geolocation extends Component {
       }
     });
 
+
+    this.currentTrip();
+
   }
 
   componentWillUnmount() {

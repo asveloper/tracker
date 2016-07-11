@@ -55,18 +55,22 @@ class Dashboard extends Component {
   }
 
   tripsListingButton(){
-    return(
-      <TouchableHighlight
-        onPress={this.handleTrips}
-        style={styles.buttonContainer}
-        underlayColor='transparent'
-      >
-        <Image
-          style={styles.button}
-          source={require('../assets/images/trips_history.png')}
-        />
-      </TouchableHighlight>
-    );
+
+    if(this.state.switchIsOn){
+      return(
+        <TouchableHighlight
+          onPress={this.handleTrips}
+          style={styles.buttonContainer}
+          underlayColor='transparent'
+        >
+          <Image
+            style={styles.button}
+            source={require('../assets/images/trips_history.png')}
+          />
+        </TouchableHighlight>
+      );
+    }
+
   }
 
   switch(){
@@ -84,6 +88,7 @@ class Dashboard extends Component {
       return (
         <MaterialSwitch
           onChangeState={(value) => this.setState({switchIsOn: value})}
+          value={this.state.switchIsOn}
           inactiveButtonColor={'#42A5F5'}
           inactiveBackgroundColor={'#ff0000'}
           inactiveButtonPressedColor={'#42A5F5'}
@@ -97,7 +102,7 @@ class Dashboard extends Component {
   }
 
   renderCurrentTrip(){
-    if(this.state.currentTrip){
+    if(this.state.currentTrip || this.state.switchIsOn){
       return (
         <Text>Current Trip: {this.state.currentTrip} KM</Text>
       );

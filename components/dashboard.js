@@ -57,7 +57,7 @@ class Dashboard extends Component {
 
   tripsListingButton(){
 
-    if(this.state.switchIsOn){
+    if(this.state.switchIsOn || this.state.showDetails){
       return(
         <TouchableHighlight
           onPress={this.handleTrips}

@@ -169,7 +169,7 @@ class Geolocation extends Component {
   saveCoordinates(latitude, longitude){
     var _this = this;
 
-    Meteor.call('addCoordinates', {latitude: latitude.toString(), longitude: longitude.toString(), tripId: _this.state.tripId, createdBy: Meteor.userId()},  (err, coordinatesId) => {
+    Meteor.call('addCoordinates', {latitude: latitude.toString(), longitude: longitude.toString(), tripId: _this.state.tripId.toString(), createdBy: Meteor.userId()},  (err, coordinatesId) => {
       if(err){
         console.log(err);
       }

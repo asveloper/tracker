@@ -59,11 +59,21 @@ class Home extends Component {
 
     let navigationView = (
 
-      <ListView
+      <View>
+
+        <View style={styles.drawerHeader}>
+          <Text style={styles.drawerHeaderContent}>Nironshah</Text>
+        </View>
+
+        <View style={styles.separator}></View>
+
+        <ListView
           dataSource={this.state.dataSource}
           renderRow={this._renderRow}
           renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
         />
+      </View>
+
     );
 
     return (
@@ -115,6 +125,19 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10
   },
+  drawerHeader: {
+    height: 60,
+    marginTop: 10,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  drawerHeaderContent: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#fff'
+  },
   separator: {
     height: 1,
     backgroundColor: '#CCCCCC',
@@ -122,5 +145,5 @@ var styles = StyleSheet.create({
   rowLabel: {
     color: '#fff',
     fontSize: 18
-  }
+  },
 });

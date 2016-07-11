@@ -8,9 +8,15 @@ import {
   TouchableHighlight,
   DrawerLayoutAndroid,
   StatusBar,
+  ListView,
 } from 'react-native';
 
 import Dashboard from './dashboard.js';
+
+const data = [
+  {label: "Payments", value: "payments"},
+  {label: "Settings", value: "settings"}
+]
 
 class Home extends Component {
 
@@ -18,21 +24,46 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      translucent: false
+      translucent: false,
+      dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     }
 
     //bind functions here
+  }
+
+  componentDidMount(){
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(data),
+    });
+  }
+
+  _pressRow(rowID){
+    console.log(rowID);
+  }
+
+  _renderRow(rowData: string, sectionID: number, rowID: number){
+    return (
+      <TouchableHighlight onPress={() => {
+          this._pressRow(rowID);
+        }}>
+        <View style={styles.content}>
+          <View>
+            <Text style={styles.rowLabel}>{rowData.label}</Text>
+          </View>
+        </View>
+      </TouchableHighlight>
+    );
   }
 
   render(){
 
     let navigationView = (
 
-      {/* TODO: Add list view to display items in drawer */}
-
-      <TouchableHighlight style={{flex: 1, backgroundColor: '#000', marginTop: 30}} underlayColor={'transparent'} onPress={() => this.setState({text: "Sumbal"})}>
-        <Text style={{margin: 10, fontSize: 15, textAlign: 'left', color: '#fff'}}>I'm in the Drawer!</Text>
-      </TouchableHighlight>
+      <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this._renderRow}
+          renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
+        />
     );
 
     return (
@@ -77,4 +108,19 @@ export default createContainer(params => {
 var styles = StyleSheet.create({
   container: {
   },
+  content: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#CCCCCC',
+  },
+  rowLabel: {
+    color: '#fff',
+    fontSize: 18
+  }
 });

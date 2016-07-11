@@ -71,7 +71,7 @@ class Details extends Component {
     let time = null;
 
     if(obj != null){
-      time = moment(obj.createdAt).format("Do MMMM YYYY, h:mm a");
+      time = moment(obj.createdAt).format("DD/MM/YYYY, h:mm a");
     }
 
     return time;

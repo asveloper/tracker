@@ -15,6 +15,11 @@ import Dashboard from './dashboard.js';
 
 const data = [
   {label: "Payments", value: "payments"},
+  {label: "History", value: "history"},
+  {label: "Help", value: "help"},
+  {label: "Free Rides", value: "freeRides"},
+  {label: "Promotions", value: "promotions"},
+  {label: "Notifications", value: "notifications"},
   {label: "Settings", value: "settings"}
 ]
 

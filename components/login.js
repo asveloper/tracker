@@ -10,14 +10,14 @@ import {
 import Meteor, { createContainer } from 'react-native-meteor';
 import Button from 'react-native-awesome-button';
 
-import Dashboard from './dashboard.js';
+import Home from './home';
 
 class Login extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      dashboard: false,
+      home: false,
       buttonState: 'idle'
     }
 
@@ -37,15 +37,15 @@ class Login extends Component {
         console.log(err);
       }else{
         _this.setState({ buttonState: 'success' })
-        _this.setState({dashboard: true});
+        _this.setState({home: true});
       }
     });
   }
 
   render(){
 
-    if(this.state.dashboard){
-      return <Dashboard />;
+    if(this.state.home){
+      return <Home />;
     }
 
     return(

@@ -71,7 +71,7 @@ class Details extends Component {
     let time = null;
 
     if(obj != null){
-      time = moment(obj.createdAt).format("DD-MM-YYYY, h:mm:ss a");
+      time = moment(obj.createdAt).format("Do MMMM YYYY, h:mm a");
     }
 
     return time;
@@ -86,7 +86,7 @@ class Details extends Component {
         <Text>Start Time: {this.displayTime(startTime)}</Text>
         <Text>End Time: {this.displayTime(endTime)}</Text>
 
-        <View style={styles.mapView}>
+        <View style={styles.mapContainer}>
           <MapView
             ref="map1"
             style={styles.map}
@@ -128,43 +128,10 @@ export default createContainer(params => {
 
 
 var styles = StyleSheet.create({
-  listView: {
-    paddingTop: 20,
-    backgroundColor: '#F5FCFF',
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  dateColumn: {
-    width: 100,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 10,
-    backgroundColor: '#F6F6F6',
-    flex: 1
-  },
-  distanceColumn: {
-    width: 100,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 10,
-    backgroundColor: '#F6F6F6',
-    flex: 1
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#CCCCCC',
-  },
-  mapView: {
+  mapContainer: {
     marginTop: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    width: 250,
-    height: 350,
+    width: 300,
+    height: 380,
   },
   map: {
     position: 'absolute',

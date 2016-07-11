@@ -31,6 +31,7 @@ class Dashboard extends Component {
     this.handleTrips = this.handleTrips.bind(this);
     this.showTrip = this.showTrip.bind(this);
     this.currentTrip = this.currentTrip.bind(this);
+    this.renderSwitch = this.renderSwitch.bind(this);
   }
 
   handleTrips(event){
@@ -73,7 +74,7 @@ class Dashboard extends Component {
 
   }
 
-  switch(){
+  renderSwitch(){
     if(Platform.OS === 'ios'){
       return (
         <Switch
@@ -133,7 +134,7 @@ class Dashboard extends Component {
           <View style={styles.footerCol}>{this.tripsListingButton()}</View>
 
           <View style={styles.buttonCol}>
-            {this.switch()}
+            {this.renderSwitch()}
           </View>
 
           <View style={styles.footerCol}>

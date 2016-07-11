@@ -8,6 +8,7 @@ import {
   View,
   PropTypes,
   TouchableHighlight,
+  TextInput,
 } from 'react-native';
 
 import Details from './details.js';
@@ -33,7 +34,7 @@ class Trips extends Component {
 
   renderHeader(){
     return(
-      <View style={styles.container}>
+      <View style={styles.content}>
         <View style={styles.dateColumn}>
           <Text style={styles.headerText}>Trip Date</Text>
         </View>
@@ -46,11 +47,11 @@ class Trips extends Component {
 
   renderRow(trip){
 
-    let date = moment(trip.createdAt).format("DD-MM-YYYY");
+    let date = moment(trip.createdAt).format("Do MMMM YYYY, hh:mm a");
 
     return(
       <TouchableHighlight onPress={() => this.showDetails(trip)}>
-        <View style={styles.container}>
+        <View style={styles.content}>
           <View style={styles.dateColumn}>
             <Text>{date}</Text>
           </View>
@@ -71,15 +72,26 @@ class Trips extends Component {
     }
 
     return (
+      <View style={{flex: 1}}>
+        <TextInput
+          ref="search"
+          keyboardType={'default'}
+          placeholder='Search Trips'
+          style={styles.search}
+          enablesReturnKeyAutomatically={true}
+          onChangeText={(search) => this.setState({search})}
+          value={this.state.search}
+        />
 
-      <MeteorComplexListView
-        elements={()=>{return Meteor.collection('trips').find({createdBy: Meteor.userId()}, {sort: {createdAt: -1}})}}
-        renderHeader={this.renderHeader}
-        renderRow={this.renderRow.bind(this)}
-        enableEmptySections={true}
-        style={styles.listView}
-        renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
-      />
+        <MeteorComplexListView
+          elements={()=>{return Meteor.collection('trips').find({createdBy: Meteor.userId()}, {sort: {createdAt: -1}})}}
+          renderHeader={this.renderHeader}
+          renderRow={this.renderRow.bind(this)}
+          enableEmptySections={true}
+          style={styles.listView}
+          renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
+        />
+      </View>
     );
   }
 
@@ -106,10 +118,12 @@ export default createContainer(params => {
 
 var styles = StyleSheet.create({
   listView: {
-    paddingTop: 20,
     backgroundColor: '#F5FCFF',
   },
   container: {
+    marginTop: 0,
+  },
+  content: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -139,5 +153,13 @@ var styles = StyleSheet.create({
   headerText: {
     fontSize: 22,
     fontWeight: "bold"
+  },
+  search: {
+    height: 30,
+    borderColor: 'gray',
+    backgroundColor: 'white',
+    marginBottom: 5,
+    paddingTop: 0,
+    paddingBottom: 0,
   }
 });
